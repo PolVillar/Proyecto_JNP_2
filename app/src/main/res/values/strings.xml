@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Proyecto_JNP</string>
+    <string name="login">Log In</string>
+    <string name="register">Register</string>
+    <string name="reg_now">Register now as a new user or Log in!</string>
 </resources>

@@ -3,4 +3,12 @@
     <string name="login">Log In</string>
     <string name="register">Register</string>
     <string name="reg_now">Register now as a new user or Log in!</string>
+    <string name="fName">First Name</string>
+    <string name="lName">Last Name</string>
+    <string name="email">Email Address</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="cPassword">Confirm Password</string>
+    <string name="phone">Phone Number</string>
+    <string name="address">Address</string>
 </resources>

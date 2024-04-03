@@ -64,49 +64,65 @@
 
             </LinearLayout>
 
-            <EditText
-                android:id="@+id/editTextText3"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:ems="10"
-                android:hint="@string/email"
-                android:inputType="text"
-                android:textSize="16sp" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/editTextText4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:ems="10"
-                android:hint="@string/username"
-                android:inputType="text"
-                android:textSize="16sp" />
+                <EditText
+                    android:id="@+id/editTextText4"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:ems="10"
+                    android:hint="@string/username"
+                    android:inputType="text"
+                    android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/editTextText6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginTop="20dp"
-                android:ems="10"
-                android:hint="@string/password"
-                android:inputType="text"
-                android:textSize="16sp" />
+                <EditText
+                    android:id="@+id/editTextText3"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:ems="10"
+                    android:hint="@string/email"
+                    android:inputType="text"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
-            <EditText
-                android:id="@+id/editTextText9"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginBottom="20dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="@string/cPassword"
-                android:inputType="text"
-                android:textSize="16sp" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/editTextText6"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginTop="5dp"
+                    android:ems="10"
+                    android:hint="@string/password"
+                    android:inputType="text"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/editTextText9"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:ems="10"
+                    android:hint="@string/cPassword"
+                    android:inputType="text"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -115,7 +131,8 @@
 
                 <EditText
                     android:id="@+id/editTextText"
-                    android:layout_width="198dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:ems="10"
@@ -125,10 +142,10 @@
 
                 <EditText
                     android:id="@+id/editTextText2"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
                     android:ems="10"
                     android:hint="@string/address"
                     android:inputType="text"
@@ -144,22 +161,32 @@
                 android:ems="10"
                 android:inputType="date" />
 
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="274dp"
-                android:layout_height="44dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="40dp"
-                android:text="Button" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="20dp">
 
-            <Button
-                android:id="@+id/button4"
-                android:layout_width="274dp"
-                android:layout_height="44dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
-                android:text="Button" />
+                <Button
+                    android:id="@+id/button2"
+                    android:layout_width="274dp"
+                    android:layout_height="44dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginHorizontal="30dp"
+                    android:text="Button" />
+
+                <Button
+                    android:id="@+id/button4"
+                    android:layout_width="274dp"
+                    android:layout_height="44dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Button" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

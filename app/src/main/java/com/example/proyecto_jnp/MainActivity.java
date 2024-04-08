@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button pruebaLogIn, pruebaRegister;
+    private Button pruebaLogIn, pruebaRegister,pruebaloginForm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,20 +29,27 @@ public class MainActivity extends AppCompatActivity {
                 abrirRegisterForm();
             }
         });
+        pruebaloginForm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {abrirLoginForm();}
+        });
     }
 
     private void abrirLogIn() {
         Intent intent = new Intent(this, LogIn_Screen.class);
         startActivity(intent);
-        finish();
     }
     private void abrirRegisterForm() {
         Intent intent = new Intent(this, RegisterForm_Screen.class);
         startActivity(intent);
-        finish();
+    }
+    private void abrirLoginForm() {
+        Intent intent = new Intent(this, LogInForm_Screen.class);
+        startActivity(intent);
     }
     private void carga(){
         pruebaLogIn = findViewById(R.id.pruebamain);
         pruebaRegister = findViewById(R.id.pruebaregister);
+        pruebaloginForm = findViewById(R.id.pruebaloginform);
     }
 }

@@ -11,4 +11,10 @@
     <string name="cPassword">Confirm Password</string>
     <string name="phone">Phone Number</string>
     <string name="address">Address</string>
+    <string name="forgot_password">Did you forget your password?</string>
+    <string name="or">or</string>
+    <string name="sign_google">Sign in with Google</string>
+    <string name="sign_facebook">Sign in with Facebook</string>
+    <string name="cancel">Cancel and Exit</string>
+    <string name="create_account">Create account and Log In</string>
 </resources>

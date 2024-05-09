@@ -52,4 +52,8 @@ public class MainActivity extends AppCompatActivity {
         pruebaRegister = findViewById(R.id.pruebaregister);
         pruebaloginForm = findViewById(R.id.pruebaloginform);
     }
+
+    User user = new User();
+
+
 }

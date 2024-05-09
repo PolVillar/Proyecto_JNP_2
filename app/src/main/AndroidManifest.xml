@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -25,9 +25,38 @@
             android:exported="false" />
         <activity
             android:name=".RegisterForm_Screen"
+            android:name=".CreateCloset"
+            android:exported="false" />
+        <activity
+            android:name=".CRUDClosets"
+            android:exported="false" />
+        <activity
+            android:name=".AddMoreClothes"
             android:exported="false" />
         <activity
             android:name=".LogIn_Screen"
+            android:name=".SuitcaseCloset"
+            android:exported="false" />
+        <activity
+            android:name=".SpringCloset"
+            android:exported="false" />
+        <activity
+            android:name=".AutumCloset"
+            android:exported="false" />
+        <activity
+            android:name=".SummerCloset"
+            android:exported="false" />
+        <activity
+            android:name=".DataJacket"
+            android:exported="false" />
+        <activity
+            android:name=".JacketsCloset"
+            android:exported="false" />
+        <activity
+            android:name=".WinterCloset"
+            android:exported="false" />
+        <activity
+            android:name=".AllCloset"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,6 +67,15 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+        <activity
+            android:name=".RegisterForm_Screen"
+            android:exported="false" />
+        <activity
+            android:name=".LogIn_Screen"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

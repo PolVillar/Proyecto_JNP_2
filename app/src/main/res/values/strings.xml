@@ -3,4 +3,30 @@
     <string name="login">Log In</string>
     <string name="register">Register</string>
     <string name="reg_now">Register now as a new user or Log in!</string>
+    <string name="winter_button">WINTER</string>
+    <string name="summer_button">SUMMER</string>
+    <string name="autum_button">AUTUM</string>
+    <string name="spring_button">SPRING</string>
+    <string name="suitcase_button">SUITCASE</string>
+    <string name="title_your_closet">YOUR CLOSET</string>
+    <string name="jacket_button">JACKETS</string>
+    <string name="sweaters_button">SWEATERS/T-SHIRTS</string>
+    <string name="skirt_pants_button">SKIRTS/PANTS</string>
+    <string name="shoes_button">SHOES</string>
+    <string name="underwear_button">UNDERWEAR</string>
+    <string name="complements_button">COMPLEMENTS</string>
+    <string name="title_closet_winter">WINTER\'S CLOSET</string>
+    <string name="title_jackets">JACKETS</string>
+    <string name="title_closet_summer">SUMMER\'S CLOSET</string>
+    <string name="title_autum_closet">AUTUM\'S CLOSET</string>
+    <string name="title_closet_spring">SPRING\'S CLOSET</string>
+    <string name="title_add_clothes">ADD NEW CLOTHES</string>
+    <string name="title_all_closets">CLOSETS</string>
+    <string name="create_closet">CREATE</string>
+    <string name="delete_closet">DELETE</string>
+    <string name="update_closet">UPDATE</string>
+    <string name="all_closets">ALL CLOSETS</string>
+    <string name="all_suitcases">ALL SUITCASES</string>
+    <string name="all_list">ALL</string>
+
 </resources>

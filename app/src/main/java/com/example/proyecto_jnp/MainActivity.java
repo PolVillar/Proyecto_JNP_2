@@ -45,4 +45,8 @@ public class MainActivity extends AppCompatActivity {
         pruebaLogIn = findViewById(R.id.pruebamain);
         pruebaRegister = findViewById(R.id.pruebaregister);
     }
+
+    User user = new User();
+
+
 }

@@ -118,7 +118,7 @@ public class LogInForm_Screen extends AppCompatActivity {
 
     private void authenticateToken(final String username, final String password){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://192.168.8.60:8443/auth/login";
+        String url = "https://192.168.8.145:8443/auth/login";
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("username", username);
@@ -220,7 +220,7 @@ public void sendRequestWithToken(String url, JSONObject requestBody) {
         //RequestQueue queue = CustomVolley.newRequestQueue(this);
         RequestQueue queue = Volley.newRequestQueue(this);
         //, new HurlStack(null, newSSLSocketFactory())
-        String url = "https://192.168.8.60:8443/users/get/by/username";
+        String url = "https://192.168.8.145:8443/users/get/by/username";
 
         JSONObject jsonBody = new JSONObject();
         try {

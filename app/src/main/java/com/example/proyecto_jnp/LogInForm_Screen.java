@@ -3,32 +3,24 @@ package com.example.proyecto_jnp;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.admin.DevicePolicyManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import android.util.Log;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,7 +44,7 @@ import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
 import model.User;
-import model.UserInMemory;
+import model.UserJwtInMemory;
 
 public class LogInForm_Screen extends AppCompatActivity {
 
@@ -61,7 +53,7 @@ public class LogInForm_Screen extends AppCompatActivity {
 
     private static final String TAG = "LogInForm_Screen";
     private Boolean check=true;
-    private UserInMemory userInMemory;
+    private UserJwtInMemory userInMemory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +61,7 @@ public class LogInForm_Screen extends AppCompatActivity {
         setContentView(R.layout.activity_log_in_form_screen);
         disableSSLCertificateChecking();
         charge();
-        userInMemory = UserInMemory.getInstance();
+        userInMemory = UserJwtInMemory.getInstance();
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,15 +116,9 @@ public class LogInForm_Screen extends AppCompatActivity {
         }
     }
 
-
-
-    private void authenticateUser(final String username, final String password){
-
-        //RequestQueue queue = CustomVolley.newRequestQueue(this);
+    private void authenticateToken(final String username, final String password){
         RequestQueue queue = Volley.newRequestQueue(this);
-        //, new HurlStack(null, newSSLSocketFactory())
-        String url = "https://192.168.8.60:8443/users/authenticate";
-
+        String url = "https://192.168.8.60:8443/auth/login";
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("username", username);
@@ -140,26 +126,19 @@ public class LogInForm_Screen extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
                             String usernameJSON = response.getString("username");
-                            String passwordJSON = response.getString("password");
-                            String mailJSON = response.getString("mail");
-                            String phoneJSON = response.getString("phone");
-                            String fullNameJSON = response.getString("fullName");
-                            //Birthdate
-                            //ProfilePicture
-                            //Containers
+                            String messageJSON =  response.getString("message");
+                            String jwtJSON = response.getString("jwt");
+                            Boolean statusJSON = response.getBoolean("status");
 
-                            User user = new User(usernameJSON,passwordJSON,mailJSON,phoneJSON,fullNameJSON,null,null,null);
-                            userInMemory.setUser(user);
+                            userInMemory.setToken(jwtJSON);
+                            authenticateUser(usernameJSON, jwtJSON);
 
-                            Intent intent = new Intent(LogInForm_Screen.this, MenuUser_Test.class);
-                            startActivity(intent);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -181,6 +160,125 @@ public class LogInForm_Screen extends AppCompatActivity {
                 }
             }
         });
+        queue.add(jsonObjectRequest);
+    }
+
+
+    private void authenticateUser(final String username, String token){
+
+        //IMPORTANTE
+
+        /*import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
+public void sendRequestWithToken(String url, JSONObject requestBody) {
+    RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+    // Supongamos que el token está guardado en SharedPreferences
+    SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+    String token = sharedPreferences.getString("auth_token", "");
+
+    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+            Request.Method.POST,
+            url,
+            requestBody,
+            new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    // Manejar la respuesta
+                }
+            },
+            new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // Manejar el error
+                }
+            }
+    ) {
+        @Override
+        public Map<String, String> getHeaders() {
+            Map<String, String> headers = new HashMap<>();
+            headers.put("Content-Type", "application/json");
+            headers.put("Authorization", "Bearer " + token);
+            return headers;
+        }
+    };
+
+    // Agregar la solicitud a la cola
+    requestQueue.add(jsonObjectRequest);
+}
+*/
+
+
+
+        //RequestQueue queue = CustomVolley.newRequestQueue(this);
+        RequestQueue queue = Volley.newRequestQueue(this);
+        //, new HurlStack(null, newSSLSocketFactory())
+        String url = "https://192.168.8.60:8443/users/get/by/username";
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("username", username);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String usernameJSON = response.getString("username");
+                            String passwordJSON = response.getString("password");
+                            String mailJSON = response.getString("mail");
+                            String phoneJSON = response.getString("phone");
+                            String fullNameJSON = response.getString("fullName");
+                            //Birthdate
+                            String profilePictureJSON = response.getString("profilePicture");
+                            //Containers
+
+                            byte[] byteArray = Base64.decode(profilePictureJSON, Base64.DEFAULT);
+                            User user = new User(usernameJSON,passwordJSON,mailJSON,phoneJSON,fullNameJSON,null,byteArray,null);
+                            userInMemory.setUser(user);
+
+                            Intent intent = new Intent(LogInForm_Screen.this, MainMenu_Screen.class);
+                            startActivity(intent);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error instanceof NetworkError) {
+                    showAlertDialog(error.getMessage(), error.getMessage());
+                } else if (error instanceof NoConnectionError) {
+                    showAlertDialog("Connection error", "Error");
+                } else if (error instanceof TimeoutError) {
+                    showAlertDialog("Timeout error", "Error");
+                } else if (error.networkResponse != null && error.networkResponse.statusCode == 404) {
+                    showAlertDialog("The username or the password are incorrect, please try again", "Error");
+                } else {
+                    showAlertDialog("The log in credencials are not correct, try with another user or password", "Error");
+                }
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "Bearer " + token);
+                return headers;
+            }
+        };
         queue.add(jsonObjectRequest);
     }
     private void showAlertDialog(String message, String title) {

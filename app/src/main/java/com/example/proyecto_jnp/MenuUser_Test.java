@@ -7,18 +7,18 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import model.User;
-import model.UserInMemory;
+import model.UserJwtInMemory;
 
 public class MenuUser_Test extends AppCompatActivity {
 
     private TextView usernameTxt, passwordTxt, mailTxt, phoneTxt, fullNameTxt;
-    private UserInMemory userInMemory;
+    private UserJwtInMemory userInMemory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_user_test);
-        userInMemory = UserInMemory.getInstance();
+        userInMemory = UserJwtInMemory.getInstance();
         charge();
 
         Intent intent = getIntent();

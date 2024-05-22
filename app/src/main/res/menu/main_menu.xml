@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/yourCloset"
+        android:title="Your closet"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/marketplace"
+        android:title="Marketplace"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/dailyOutfit"
+        android:title="Daily Outfit"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/socialNetwork"
+        android:title="Social Network"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/logOut"
+        android:title="Log Out"
+        app:showAsAction="never"/>
+</menu>

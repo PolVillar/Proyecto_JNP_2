@@ -25,8 +25,10 @@
             android:exported="false" />
         <activity
             android:name=".RegisterForm_Screen"
-            android:name=".CreateCloset"
             android:exported="false" />
+        <activity
+        android:name=".CreateCloset"
+        android:exported="false"/>
         <activity
             android:name=".CRUDClosets"
             android:exported="false" />
@@ -35,8 +37,11 @@
             android:exported="false" />
         <activity
             android:name=".LogIn_Screen"
-            android:name=".SuitcaseCloset"
-            android:exported="false" />
+            android:exported="true">
+        </activity>
+        <activity
+        android:name=".SuitcaseCloset"
+        android:exported="false"/>
         <activity
             android:name=".SpringCloset"
             android:exported="false" />
@@ -58,24 +63,16 @@
         <activity
             android:name=".AllCloset"
             android:exported="true">
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" />
-        <activity
-            android:name=".RegisterForm_Screen"
-            android:exported="false" />
-        <activity
-            android:name=".LogIn_Screen"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
     </application>
 
 </manifest>

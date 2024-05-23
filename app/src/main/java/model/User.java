@@ -1,23 +1,10 @@
 package model;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
-@Data
-@NoArgsConstructor
-@SuperBuilder
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class User {
     private String username;
     private String password;
@@ -105,11 +92,11 @@ public class User {
         this.containers = containers;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     public String getBase64Image() {
         return Base64.getEncoder().encodeToString(profilePicture);
     }
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     public void setBase64Image(String b64Image) {
         this.profilePicture=Base64.getDecoder().decode(b64Image);
     }

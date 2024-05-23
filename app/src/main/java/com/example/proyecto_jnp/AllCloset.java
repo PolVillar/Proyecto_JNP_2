@@ -29,8 +29,6 @@ public class AllCloset extends AppCompatActivity {
         btnWinter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AllCloset.this, WinterCloset.class);
-                startActivity(intent);
             }
         });
 

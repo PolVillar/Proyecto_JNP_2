@@ -1,19 +1,14 @@
 package com.example.proyecto_jnp;
 
-/*import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;*/
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
-
-@Data
-@NoArgsConstructor
-@SuperBuilder
-@EqualsAndHashCode(callSuper = true)
+import java.util.List;
 
 public class Suitcase extends Container{
 
+    public Suitcase() {
+    }
+
+    public Suitcase(Long id, String name, Type type, User owner, List<Clothes> clothes) {
+        super(id, name, type, owner, clothes);
+    }
 }
 

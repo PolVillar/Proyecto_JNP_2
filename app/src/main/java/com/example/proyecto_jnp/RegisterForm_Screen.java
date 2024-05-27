@@ -52,7 +52,7 @@ import model.UserJwtInMemory;
 
 public class RegisterForm_Screen extends AppCompatActivity {
 
-    private EditText firstName, lastName,date,phone,address,password,conf_password,username,email;
+    private EditText firstName, lastName,date,phone,password,conf_password,username,email;
     private Calendar calendar;
     private Button createAccount, cancel;
     private Boolean contin = true;
@@ -147,7 +147,6 @@ public class RegisterForm_Screen extends AppCompatActivity {
         email = findViewById(R.id.email_et);
         conf_password = findViewById(R.id.conf_password_et);
         password = findViewById(R.id.password_reg_et);
-        address = findViewById(R.id.address_et);
         username = findViewById(R.id.username_reg_et);
         cancel = findViewById(R.id.cancel_reg_bt);
         createAccount = findViewById(R.id.create_acc_bt);
@@ -195,7 +194,7 @@ public class RegisterForm_Screen extends AppCompatActivity {
                             byte[] byteArray = stream.toByteArray();
                             String pfp = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
-                            User user = new User(username,password,mail,phone,fullname,birthdate,byteArray,null);
+                            User user = new User(username,password,mail,phone,fullname,birthdateValFormatted,byteArray,null);
                             userInMemory.setUser(user);
 
                             Intent intent = new Intent(RegisterForm_Screen.this, MainMenu_Screen.class);

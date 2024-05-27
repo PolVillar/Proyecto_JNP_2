@@ -14,7 +14,7 @@ public class SummerCloset extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summer_closet);
 
-        ImageButton ibArrow = findViewById(R.id.ibArrow);
+        ImageButton ibArrow = findViewById(R.id.ibArrowAut);
 
         ibArrow.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -14,7 +14,7 @@ public class SpringCloset extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spring_closet);
 
-        ImageButton ibArrow = findViewById(R.id.ibArrow);
+        ImageButton ibArrow = findViewById(R.id.ibArrowAut);
 
         ibArrow.setOnClickListener(new View.OnClickListener() {
             @Override

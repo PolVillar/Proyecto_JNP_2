@@ -1,32 +1,35 @@
 package com.example.proyecto_jnp;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.view.MenuItem;
+
+import androidx.appcompat.widget.Toolbar;
 
 public class SuitcaseCloset extends AppCompatActivity {
+
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suitcase);
 
-        ImageView ivJacket = findViewById(R.id.ivJacket);
+        toolbar = findViewById(R.id.toolbar4);
+        setSupportActionBar(toolbar);
 
-        ivJacket.setImageResource(R.drawable.jacket);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ImageButton ibArrow = findViewById(R.id.ibArrow);
+        getSupportActionBar().setTitle("Suitcase Closet");
+    }
 
-        ibArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SuitcaseCloset.this, AllCloset.class);
-                startActivity(intent);
-            }
-        });
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            // Finalizar la actividad actual y regresar a la anterior
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

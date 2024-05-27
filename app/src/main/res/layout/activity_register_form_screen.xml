@@ -123,30 +123,19 @@
                     android:hint="@string/phone"
                     android:inputType="text"
                     android:textSize="16sp" />
-
                 <EditText
-                    android:id="@+id/address_et"
+                    android:id="@+id/bday_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
                     android:ems="10"
-                    android:hint="@string/address"
-                    android:inputType="text"
-                    android:textSize="16sp" />
+                    android:inputType="date"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:hint="Birthday"/>
 
             </LinearLayout>
 
-            <EditText
-                android:id="@+id/bday_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:ems="10"
-                android:inputType="date"
-                android:focusable="false"
-                android:clickable="true"
-                android:hint="Birthday"/>
 
             <Button
                 android:id="@+id/create_acc_bt"

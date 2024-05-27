@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import androidx.appcompat.widget.Toolbar;
 
 public class AllCloset extends AppCompatActivity {
 
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,8 +26,14 @@ public class AllCloset extends AppCompatActivity {
         Button btnSpring = findViewById(R.id.btnSpring);
 
         Button btnSuitcase = findViewById(R.id.btnSuitcase);
+        toolbar=findViewById(R.id.toolbar5);
+        setSupportActionBar(toolbar);
 
-        //ImageButton ibArrow = findViewById(R.id.ibArrow);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        getSupportActionBar().setTitle("Your Closet");
+
+
 
         btnWinter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,14 +74,14 @@ public class AllCloset extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-        //ibArrow.setOnClickListener(new View.OnClickListener() {
-            //@Override
-            //public void onClick(View view) {
-                //aqui poner que con la flecha se vaya a la activity anterior
-            //}
-        //});
-
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            // Finalizar la actividad actual y regresar a la anterior
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

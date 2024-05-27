@@ -18,7 +18,7 @@ public class DataJacket extends AppCompatActivity {
         ImageView ivPhotoJacket = findViewById(R.id.ivJacket);
         ivPhotoJacket.setImageResource(R.drawable.jacket);
 
-        ImageButton ibArrow = findViewById(R.id.ibArrow);
+        ImageButton ibArrow = findViewById(R.id.ibArrowAut);
 
         ibArrow.setOnClickListener(new View.OnClickListener() {
             @Override

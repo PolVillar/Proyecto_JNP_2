@@ -15,7 +15,7 @@ public class JacketsCloset extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jackets_closet);
 
-        ImageButton ibArrow = findViewById(R.id.ibArrow);
+        ImageButton ibArrow = findViewById(R.id.ibArrowAut);
         ImageView ivJacket = findViewById(R.id.ivJacket);
         ImageButton ibAddInfo = findViewById(R.id.ibAddInfo);
 

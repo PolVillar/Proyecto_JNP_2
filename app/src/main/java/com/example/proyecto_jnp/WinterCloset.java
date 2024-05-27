@@ -15,7 +15,7 @@ public class WinterCloset extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_winter_closet);
 
-        ImageButton ibArrow = findViewById(R.id.ibArrow);
+        ImageButton ibArrow = findViewById(R.id.ibArrowAut);
         Button btnJacket = findViewById(R.id.btnJackets);
 
         btnJacket.setOnClickListener(new View.OnClickListener() {

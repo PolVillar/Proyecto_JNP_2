@@ -24,7 +24,7 @@ public class User {
     private String mail;
     private String phone;
     private String fullName;
-    private Date birthDate;
+    private String birthDate;
     private byte[] profilePicture;
     private List<Container> containers;
 
@@ -68,11 +68,11 @@ public class User {
         this.fullName = fullName;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -94,7 +94,7 @@ public class User {
 
 
 
-    public User(String username, String password, String mail, String phone, String fullName, Date birthDate, byte[] profilePicture, List<Container> containers) {
+    public User(String username, String password, String mail, String phone, String fullName, String birthDate, byte[] profilePicture, List<Container> containers) {
         this.username = username;
         this.password = password;
         this.mail = mail;

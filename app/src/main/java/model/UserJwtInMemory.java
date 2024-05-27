@@ -31,4 +31,8 @@ public class UserJwtInMemory {
     public void setUser(User user) {
         this.user = user;
     }
+    public void cleanse(){
+        this.user = null;
+        this.token = null;
+    }
 }

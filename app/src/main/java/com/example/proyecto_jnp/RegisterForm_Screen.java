@@ -24,6 +24,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -31,8 +32,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Date;
@@ -42,9 +48,12 @@ import java.util.Calendar;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
 import model.User;
@@ -63,7 +72,7 @@ public class RegisterForm_Screen extends AppCompatActivity {
         setContentView(R.layout.activity_register_form_screen);
         userInMemory = UserJwtInMemory.getInstance();
         charge();
-        disableSSLCertificateChecking();
+        //disableSSLCertificateChecking();
 
         date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +163,7 @@ public class RegisterForm_Screen extends AppCompatActivity {
         calendar = Calendar.getInstance();
     }
     private void registerUser(final String username, final String password, final String mail, final String phone, final String fullname, final Date birthdate, final String profilePicture){
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = Volley.newRequestQueue(this,new HurlStack(null,newSSLSocketFactory()));
         String url = "https://192.168.8.145:8443/auth/signup";
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -238,6 +247,25 @@ public class RegisterForm_Screen extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+    private SSLSocketFactory newSSLSocketFactory(){
+        try {
+            InputStream certificate = getResources().openRawResource(R.raw.marianaows);
+            KeyStore keyStore = KeyStore.getInstance("BKS");
+            keyStore.load(certificate, "marianaoclosetpoljuan".toCharArray());
+
+            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            keyManagerFactory.init(keyStore, "marianaoclosetpoljuan".toCharArray());
+
+            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            trustManagerFactory.init(keyStore);
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), null);
+            return sslContext.getSocketFactory();
+        } catch (NoSuchAlgorithmException | KeyStoreException | KeyManagementException |
+                 UnrecoverableKeyException | CertificateException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     public static void disableSSLCertificateChecking() {
         TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {

@@ -78,12 +78,13 @@ public class TrustAllSSLSocketFactory extends SSLSocketFactory {
     }
     private void dd() throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException, IOException, CertificateException, KeyManagementException {
         //Context context= ;
-        int certificateResource = R.raw.marianaows;
-        InputStream certificate = context.getResources().openRawResource(certificateResource);
+        InputStream certificate = context.getResources().openRawResource(R.raw.marianaows);
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
         keyStore.load(certificate, "marianaoclosetpoljuan".toCharArray());
+
         KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
         keyManagerFactory.init(keyStore, "marianaoclosetpoljuan".toCharArray());
+
         TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
         trustManagerFactory.init(keyStore);
         SSLContext sslContext = SSLContext.getInstance("TLS");

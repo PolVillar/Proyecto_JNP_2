@@ -25,10 +25,15 @@ import android.widget.EditText;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.HashMap;
@@ -36,6 +41,7 @@ import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
@@ -98,20 +104,21 @@ public class LogInForm_Screen extends AppCompatActivity {
     }
 
     private SSLSocketFactory newSSLSocketFactory(){
-        TrustManagerFactory tmf;
-
         try {
-            tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-            tmf.init((KeyStore) null);
+            InputStream certificate = getResources().openRawResource(R.raw.marianaows);
+            KeyStore keyStore = KeyStore.getInstance("PKCS12");
+            keyStore.load(certificate, "marianaoclosetpoljuan".toCharArray());
 
-            SSLContext context = SSLContext.getInstance("TLS");
-            context.init(null, tmf.getTrustManagers(), null);
-            return context.getSocketFactory();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        } catch (KeyStoreException e) {
-            throw new RuntimeException(e);
-        } catch (KeyManagementException e) {
+            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            keyManagerFactory.init(keyStore, "marianaoclosetpoljuan".toCharArray());
+
+            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            trustManagerFactory.init(keyStore);
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), null);
+            return sslContext.getSocketFactory();
+        } catch (NoSuchAlgorithmException | KeyStoreException | KeyManagementException |
+                 UnrecoverableKeyException | CertificateException | IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -220,7 +227,7 @@ public void sendRequestWithToken(String url, JSONObject requestBody) {
         //RequestQueue queue = CustomVolley.newRequestQueue(this);
         RequestQueue queue = Volley.newRequestQueue(this);
         //, new HurlStack(null, newSSLSocketFactory())
-        String url = "https://192.168.8.145:8443/users/get/by/username";
+        String url = "https://192.168.8.145:8443/users/get/by/username/"+username;
 
         JSONObject jsonBody = new JSONObject();
         try {

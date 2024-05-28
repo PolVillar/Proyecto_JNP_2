@@ -31,9 +31,6 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,7 +74,7 @@ public class LogInForm_Screen extends AppCompatActivity {
                     check=false;
                 }
                 if (check) {
-                    authenticateToken(username.getText().toString().trim(), password.getText().toString().trim());
+                    authenticateUser(username.getText().toString().trim(), password.getText().toString().trim());
                 }
                 else{
                     check=true;
@@ -121,7 +118,7 @@ public class LogInForm_Screen extends AppCompatActivity {
 
     private void authenticateToken(final String username, final String password){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://192.168.8.60:8443/auth/login";
+        String url = "https://192.168.8.145:8443/auth/login";
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("username", username);
@@ -168,10 +165,62 @@ public class LogInForm_Screen extends AppCompatActivity {
 
 
     private void authenticateUser(final String username, String token){
-        //Parameterized query ¡BUSCAR!
 
+        //IMPORTANTE
+
+        /*import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
+public void sendRequestWithToken(String url, JSONObject requestBody) {
+    RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+    // Supongamos que el token está guardado en SharedPreferences
+    SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+    String token = sharedPreferences.getString("auth_token", "");
+
+    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+            Request.Method.POST,
+            url,
+            requestBody,
+            new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    // Manejar la respuesta
+                }
+            },
+            new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // Manejar el error
+                }
+            }
+    ) {
+        @Override
+        public Map<String, String> getHeaders() {
+            Map<String, String> headers = new HashMap<>();
+            headers.put("Content-Type", "application/json");
+            headers.put("Authorization", "Bearer " + token);
+            return headers;
+        }
+    };
+
+    // Agregar la solicitud a la cola
+    requestQueue.add(jsonObjectRequest);
+}
+*/
+
+
+
+        //RequestQueue queue = CustomVolley.newRequestQueue(this);
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://192.168.8.60:8443/users/get/by/username/"+username;
+        //, new HurlStack(null, newSSLSocketFactory())
+        String url = "https://192.168.8.145:8443/users/get/by/username";
 
         JSONObject jsonBody = new JSONObject();
         try {
@@ -181,8 +230,7 @@ public class LogInForm_Screen extends AppCompatActivity {
         }
 
 
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, jsonBody,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -192,12 +240,12 @@ public class LogInForm_Screen extends AppCompatActivity {
                             String mailJSON = response.getString("mail");
                             String phoneJSON = response.getString("phone");
                             String fullNameJSON = response.getString("fullName");
-                            String birthdateJSON = response.getString("birthDate");
+                            //Birthdate
                             String profilePictureJSON = response.getString("profilePicture");
                             //Containers
 
                             byte[] byteArray = Base64.decode(profilePictureJSON, Base64.DEFAULT);
-                            User user = new User(usernameJSON,passwordJSON,mailJSON,phoneJSON,fullNameJSON,birthdateJSON,byteArray,null);
+                            User user = new User(usernameJSON,passwordJSON,mailJSON,phoneJSON,fullNameJSON,null,byteArray,null);
                             userInMemory.setUser(user);
 
                             Intent intent = new Intent(LogInForm_Screen.this, MainMenu_Screen.class);
@@ -217,7 +265,7 @@ public class LogInForm_Screen extends AppCompatActivity {
                 } else if (error instanceof TimeoutError) {
                     showAlertDialog("Timeout error", "Error");
                 } else if (error.networkResponse != null && error.networkResponse.statusCode == 404) {
-                    showAlertDialog(error.getMessage(), "Error");
+                    showAlertDialog("The username or the password are incorrect, please try again", "Error");
                 } else {
                     showAlertDialog("The log in credencials are not correct, try with another user or password", "Error");
                 }

@@ -42,5 +42,6 @@
     <string name="all_closets">ALL CLOSETS</string>
     <string name="all_suitcases">ALL SUITCASES</string>
     <string name="all_list">ALL</string>
+    <string name="last_use_null">Not used yet</string>
 
 </resources>

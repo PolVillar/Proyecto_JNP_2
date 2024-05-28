@@ -15,9 +15,6 @@
         android:theme="@style/Theme.Proyecto_JNP"
         tools:targetApi="31">
         <activity
-            android:name=".UserProfile_Class"
-            android:exported="false" />
-        <activity
             android:name=".MenuUser_Test"
             android:exported="false" />
         <activity
@@ -30,8 +27,8 @@
             android:name=".RegisterForm_Screen"
             android:exported="false" />
         <activity
-            android:name=".CreateCloset"
-            android:exported="false" />
+        android:name=".CreateCloset"
+        android:exported="false"/>
         <activity
             android:name=".CRUDClosets"
             android:exported="false" />
@@ -40,31 +37,12 @@
             android:exported="false" />
         <activity
             android:name=".LogIn_Screen"
-            android:exported="true"></activity>
-        <activity
-            android:name=".SuitcaseCloset"
-            android:exported="false" />
-        <activity
-            android:name=".SpringCloset"
-            android:exported="false" />
-        <activity
-            android:name=".AutumCloset"
-            android:exported="false" />
-        <activity
-            android:name=".SummerCloset"
-            android:exported="false" />
-        <activity
-            android:name=".DataJacket"
-            android:exported="false" />
-        <activity
-            android:name=".JacketsCloset"
-            android:exported="false" />
-        <activity
-            android:name=".WinterCloset"
-            android:exported="false" />
+            android:exported="true">
+        </activity>
         <activity
             android:name=".AllCloset"
-            android:exported="true"></activity>
+            android:exported="true">
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">

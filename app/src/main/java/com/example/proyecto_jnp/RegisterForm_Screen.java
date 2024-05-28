@@ -154,7 +154,7 @@ public class RegisterForm_Screen extends AppCompatActivity {
     }
     private void registerUser(final String username, final String password, final String mail, final String phone, final String fullname, final Date birthdate, final String profilePicture){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://192.168.8.60:8443/auth/signup";
+        String url = "https://192.168.8.145:8443/auth/signup";
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String birthdateValFormatted = dateFormat.format(birthdate);

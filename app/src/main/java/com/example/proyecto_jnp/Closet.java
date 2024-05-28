@@ -1,18 +1,12 @@
 package com.example.proyecto_jnp;
 
-/*import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;*/
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
-
-@Data
-@NoArgsConstructor
-@SuperBuilder
-@EqualsAndHashCode(callSuper = true)
+import java.util.List;
 
 public class Closet extends Container{
 
+    public Closet() {
+    }
+    public Closet(Long id, String name, Type type, User owner, List<Clothes> clothes) {
+        super(id, name, type, owner, clothes);
+    }
 }

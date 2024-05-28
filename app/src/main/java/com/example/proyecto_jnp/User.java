@@ -32,10 +32,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
-@Data
-@NoArgsConstructor
-@SuperBuilder
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+
 public class User {
 
     public static final int MIN_USERNAME = 4;
@@ -45,30 +42,93 @@ public class User {
     public static final int MIN_FULL_NAME = 3;
     public static final int MAX_FULL_NAME = 100;
 
-    @NonNull
 
     private String username;
-
-    @NonNull
-
     private String password;
-
-    @NonNull
-
     private String mail;
-
     private String phone;
-
-    @NonNull
-
     private String fullName;
-
-    @NonNull
-
     private Date birthDate;
     private byte[] profilePicture;
-
     private List<Container> containers;
+
+    public User() {
+    }
+
+    public User(String username, String password, String mail, String phone, String fullName, Date birthDate, byte[] profilePicture, List<Container> containers) {
+        this.username = username;
+        this.password = password;
+        this.mail = mail;
+        this.phone = phone;
+        this.fullName = fullName;
+        this.birthDate = birthDate;
+        this.profilePicture = profilePicture;
+        this.containers = containers;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public byte[] getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(byte[] profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
+    public List<Container> getContainers() {
+        return containers;
+    }
+
+    public void setContainers(List<Container> containers) {
+        this.containers = containers;
+    }
 
     public String getBase64Image() {
         return Base64.getEncoder().encodeToString(profilePicture);

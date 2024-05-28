@@ -20,77 +20,99 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <Button
-        android:id="@+id/btnWinter"
-        android:layout_width="155dp"
-        android:layout_height="136dp"
-        android:text="@string/winter_button"
-        android:textSize="20dp"
-        android:textColor="@color/black"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.113"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.268" />
     <!--android:backgroundTint="@color/material_dynamic_neutral70"-->
-    <Button
-        android:id="@+id/btnSummer"
-        android:layout_width="155dp"
-        android:layout_height="136dp"
-        android:text="@string/summer_button"
-        android:textSize="20dp"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.89"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.268" />
     <!--android:backgroundTint="@color/material_dynamic_neutral70"-->
-    <Button
-        android:id="@+id/btnSpring"
-        android:layout_width="155dp"
-        android:layout_height="136dp"
-        android:text="@string/spring_button"
-        android:textSize="20dp"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.89"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.559" />
     <!--android:backgroundTint="@color/material_dynamic_neutral70"-->
 
-    <Button
-        android:id="@+id/btnAutum"
-        android:layout_width="155dp"
-        android:layout_height="136dp"
-        android:text="@string/autum_button"
-        android:textSize="20dp"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.113"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.559" />
     <!--android:backgroundTint="@color/material_dynamic_neutral70"-->
 
-    <Button
-        android:id="@+id/btnSuitcase"
-        android:layout_width="155dp"
-        android:layout_height="136dp"
-        android:text="@string/suitcase_button"
-        android:textSize="20dp"
-        android:textColor="@color/black"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="384dp"
+        android:layout_height="461dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.853"/>
+        app:layout_constraintTop_toBottomOf="@+id/toolbar5"
+        app:layout_constraintVertical_bias="0.050000012">
+
+        <Button
+            android:id="@+id/btnWinter"
+            android:layout_width="155dp"
+            android:layout_height="136dp"
+            android:text="@string/winter_button"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/btnSummer"
+            android:layout_width="155dp"
+            android:layout_height="136dp"
+            android:text="@string/summer_button"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/btnSpring"
+            android:layout_width="155dp"
+            android:layout_height="136dp"
+            android:text="@string/spring_button"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnSummer" />
+
+        <Button
+            android:id="@+id/btnAutum"
+            android:layout_width="155dp"
+            android:layout_height="136dp"
+            android:text="@string/autum_button"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnWinter" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="384dp"
+        android:layout_height="161dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+        <Button
+            android:id="@+id/btnSuitcase"
+            android:layout_width="155dp"
+            android:layout_height="136dp"
+            android:text="@string/suitcase_button"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            tools:layout_editor_absoluteX="128dp"
+            tools:layout_editor_absoluteY="508dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <!--android:backgroundTint="@color/material_dynamic_neutral70"-->
 
 

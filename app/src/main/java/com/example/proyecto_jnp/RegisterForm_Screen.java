@@ -72,7 +72,7 @@ public class RegisterForm_Screen extends AppCompatActivity {
         setContentView(R.layout.activity_register_form_screen);
         userInMemory = UserJwtInMemory.getInstance();
         charge();
-        //disableSSLCertificateChecking();
+        disableSSLCertificateChecking();
 
         date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,7 +164,8 @@ public class RegisterForm_Screen extends AppCompatActivity {
     }
     private void registerUser(final String username, final String password, final String mail, final String phone, final String fullname, final Date birthdate, final String profilePicture){
         RequestQueue queue = Volley.newRequestQueue(this,new HurlStack(null,newSSLSocketFactory()));
-        String url = "https://192.168.8.145:8443/auth/signup";
+        //String url = "https://192.168.8.145:8443/auth/signup";
+        String url= "https://192.168.1.187:8443/auth/signup";
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String birthdateValFormatted = dateFormat.format(birthdate);
@@ -250,7 +251,7 @@ public class RegisterForm_Screen extends AppCompatActivity {
     }
     private SSLSocketFactory newSSLSocketFactory(){
         try {
-            InputStream certificate = getResources().openRawResource(R.raw.marianaows);
+            InputStream certificate = getResources().openRawResource(R.raw.marianaows2);
             KeyStore keyStore = KeyStore.getInstance("BKS");
             keyStore.load(certificate, "marianaoclosetpoljuan".toCharArray());
 

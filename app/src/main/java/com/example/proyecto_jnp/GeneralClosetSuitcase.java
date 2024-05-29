@@ -42,26 +42,6 @@ public class GeneralClosetSuitcase extends AppCompatActivity {
         clothesDates = new ArrayList<>();
 
 
-        Drawable img = getResources().getDrawable(R.drawable.profile_blank, null);
-        clothesImgs.add(img);
-        clothesNames.add("Prueba");
-        Date date = new Date();
-        clothesDates.add(date);
-        clothesImgs.add(img);
-        clothesNames.add("Prueba");
-        clothesDates.add(date);
-        clothesImgs.add(img);
-        clothesNames.add("Prueba");
-        clothesDates.add(date);
-        clothesImgs.add(img);
-        clothesNames.add("Prueba");
-        clothesDates.add(date);
-        clothesImgs.add(img);
-        clothesNames.add("Prueba");
-        clothesDates.add(date);
-        clothesImgs.add(img);
-        clothesNames.add("Prueba");
-        clothesDates.add(date);
 
         adapter = new RecyclerViewAdapter(this,clothesImgs,clothesNames,clothesDates);
         recyclerView.setAdapter(adapter);

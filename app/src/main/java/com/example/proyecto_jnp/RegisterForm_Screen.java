@@ -163,7 +163,7 @@ public class RegisterForm_Screen extends AppCompatActivity {
         calendar = Calendar.getInstance();
     }
     private void registerUser(final String username, final String password, final String mail, final String phone, final String fullname, final Date birthdate, final String profilePicture){
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = Volley.newRequestQueue(this,new HurlStack(null, newSSLSocketFactory()));
         String url = ConnectionConfig.getIp()+"/auth/signup";
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -206,6 +206,7 @@ public class RegisterForm_Screen extends AppCompatActivity {
 
                             User user = new User(username,password,mail,phone,fullname,birthdateValFormatted,byteArray,null);
                             userInMemory.setUser(user);
+                            authenticateToken(username,password);
 
                             Intent intent = new Intent(RegisterForm_Screen.this, MainMenu_Screen.class);
                             startActivity(intent);
@@ -231,6 +232,51 @@ public class RegisterForm_Screen extends AppCompatActivity {
             }
         });
 
+        queue.add(jsonObjectRequest);
+    }
+    private void authenticateToken(final String username, final String password){
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = ConnectionConfig.getIp()+"/auth/login";
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("username", username);
+            jsonBody.put("password", password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String usernameJSON = response.getString("username");
+                            String messageJSON =  response.getString("message");
+                            String jwtJSON = response.getString("jwt");
+                            Boolean statusJSON = response.getBoolean("status");
+
+                            userInMemory.setToken(jwtJSON);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error instanceof NetworkError) {
+                    showAlertDialog(error.getMessage(), error.getMessage());
+                } else if (error instanceof NoConnectionError) {
+                    showAlertDialog("Connection error", "Error");
+                } else if (error instanceof TimeoutError) {
+                    showAlertDialog("Timeout error", "Error");
+                } else if (error.networkResponse != null && error.networkResponse.statusCode == 404) {
+                    showAlertDialog("The username or the password are incorrect, please try again", "Error");
+                } else {
+                    showAlertDialog("The log in credencials are not correct, try with another user or password", "Error");
+                }
+            }
+        });
         queue.add(jsonObjectRequest);
     }
     private void showAlertDialog(String message, String title) {

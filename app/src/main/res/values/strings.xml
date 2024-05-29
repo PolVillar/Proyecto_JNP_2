@@ -43,5 +43,14 @@
     <string name="all_suitcases">ALL SUITCASES</string>
     <string name="all_list">ALL</string>
     <string name="last_use_null">Not used yet</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="server_ip_title">Server IP</string>
+
+
+    <!-- Messages Preferences -->
+    <string name="server_ip_summary">Insert the ip of the app server</string>
+
 
 </resources>

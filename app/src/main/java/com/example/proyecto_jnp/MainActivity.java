@@ -72,5 +72,8 @@ public class MainActivity extends AppCompatActivity {
         pruebaMenu = findViewById(R.id.pruebamenu2);
         pruebaSuitcase = findViewById(R.id.suitcase_trial);
     }
+    public void abrirIp(View view){
+        startActivity(new Intent(this, SettingsActivity.class));
+    }
 
 }

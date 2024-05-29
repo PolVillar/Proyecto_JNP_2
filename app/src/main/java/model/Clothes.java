@@ -1,7 +1,9 @@
-package com.example.proyecto_jnp;
+package model;
 
 import java.util.Base64;
 import java.util.Date;
+
+import model.Container;
 
 public class Clothes {
 

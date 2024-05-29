@@ -125,7 +125,7 @@ public class LogInForm_Screen extends AppCompatActivity {
 
     private void authenticateToken(final String username, final String password){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = ConnectionConfig.getIp()+"/auth/login";
+        String url = ConnectionConfig.getIp(this)+"/auth/login";
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("username", username);
@@ -175,7 +175,7 @@ public class LogInForm_Screen extends AppCompatActivity {
         //RequestQueue queue = CustomVolley.newRequestQueue(this);
         RequestQueue queue = Volley.newRequestQueue(this);
         //, new HurlStack(null, newSSLSocketFactory())
-        String url = ConnectionConfig.getIp()+ "/users/get/by/username/"+username;
+        String url = ConnectionConfig.getIp(this)+ "/users/get/by/username/"+username;
 
         JSONObject jsonBody = new JSONObject();
         try {

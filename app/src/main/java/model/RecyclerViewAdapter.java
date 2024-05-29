@@ -24,7 +24,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private final List<Drawable> drawables;
     private final List<String> names;
     private final List<Date> dates;
-    private final SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.FRANCE);
+    private final SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
 
     public RecyclerViewAdapter(Context context, List<Drawable> drawables, List<String> names, List<Date> dates) {
         this.context = context;

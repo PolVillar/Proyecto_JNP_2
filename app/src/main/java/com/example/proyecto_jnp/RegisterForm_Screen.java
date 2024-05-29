@@ -94,7 +94,7 @@ public class RegisterForm_Screen extends AppCompatActivity {
                 contin = true;
                 for (EditText editText: editTexts) {
                     if (editText.getText().toString().isEmpty()){
-                        editText.setError("This field cannot be blank");
+                        editText.setError(getString(R.string.edit_text_empty));
                         contin = false;
                     }
                 }

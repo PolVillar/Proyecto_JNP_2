@@ -47,6 +47,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import model.ConnectionConfig;
 import model.User;
 import model.UserJwtInMemory;
 
@@ -154,7 +155,7 @@ public class RegisterForm_Screen extends AppCompatActivity {
     }
     private void registerUser(final String username, final String password, final String mail, final String phone, final String fullname, final Date birthdate, final String profilePicture){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://192.168.8.145:8443/auth/signup";
+        String url = ConnectionConfig.getIp()+"/auth/signup";
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String birthdateValFormatted = dateFormat.format(birthdate);

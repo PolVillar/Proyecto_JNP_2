@@ -18,6 +18,12 @@
             android:name=".MenuUser_Test"
             android:exported="false" />
         <activity
+            android:name=".UserProfile_Class"
+            android:exported="false" />
+        <activity
+            android:name=".GeneralClosetSuitcase"
+            android:exported="false" />
+        <activity
             android:name=".MainMenu_Screen"
             android:exported="false" />
         <activity

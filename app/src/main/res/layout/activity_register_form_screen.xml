@@ -116,18 +116,20 @@
 
                 <EditText
                     android:id="@+id/phone_et"
-                    android:layout_width="198dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
+                    android:layout_weight="1"
                     android:ems="10"
                     android:hint="@string/phone"
                     android:inputType="text"
                     android:textSize="16sp" />
                 <EditText
                     android:id="@+id/bday_et"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
+                    android:layout_weight="1"
                     android:ems="10"
                     android:inputType="date"
                     android:focusable="false"

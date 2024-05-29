@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button pruebaLogIn, pruebaRegister,pruebaloginForm,pruebaMenu;
+    private Button pruebaLogIn, pruebaRegister,pruebaloginForm,pruebaMenu,pruebaSuitcase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {abrirMenu();}
         });
+        pruebaSuitcase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirSuitcase();
+            }
+        });
     }
 
     private void abrirLogIn() {
@@ -55,11 +61,16 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainMenu_Screen.class);
         startActivity(intent);
     }
+    private void abrirSuitcase(){
+        Intent intent = new Intent(this, GeneralClosetSuitcase.class);
+        startActivity(intent);
+    }
     private void carga(){
         pruebaLogIn = findViewById(R.id.pruebamain);
         pruebaRegister = findViewById(R.id.pruebaregister);
         pruebaloginForm = findViewById(R.id.pruebaloginform);
         pruebaMenu = findViewById(R.id.pruebamenu2);
+        pruebaSuitcase = findViewById(R.id.suitcase_trial);
     }
 
 }

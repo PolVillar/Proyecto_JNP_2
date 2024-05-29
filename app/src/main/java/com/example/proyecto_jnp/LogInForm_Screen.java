@@ -43,6 +43,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
+import model.ConnectionConfig;
 import model.User;
 import model.UserJwtInMemory;
 
@@ -74,7 +75,7 @@ public class LogInForm_Screen extends AppCompatActivity {
                     check=false;
                 }
                 if (check) {
-                    authenticateUser(username.getText().toString().trim(), password.getText().toString().trim());
+                    authenticateToken(username.getText().toString().trim(), password.getText().toString().trim());
                 }
                 else{
                     check=true;
@@ -118,7 +119,7 @@ public class LogInForm_Screen extends AppCompatActivity {
 
     private void authenticateToken(final String username, final String password){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://192.168.8.145:8443/auth/login";
+        String url = ConnectionConfig.getIp()+"/auth/login";
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("username", username);
@@ -165,62 +166,10 @@ public class LogInForm_Screen extends AppCompatActivity {
 
 
     private void authenticateUser(final String username, String token){
-
-        //IMPORTANTE
-
-        /*import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONObject;
-
-public void sendRequestWithToken(String url, JSONObject requestBody) {
-    RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-    // Supongamos que el token está guardado en SharedPreferences
-    SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-    String token = sharedPreferences.getString("auth_token", "");
-
-    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-            Request.Method.POST,
-            url,
-            requestBody,
-            new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    // Manejar la respuesta
-                }
-            },
-            new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    // Manejar el error
-                }
-            }
-    ) {
-        @Override
-        public Map<String, String> getHeaders() {
-            Map<String, String> headers = new HashMap<>();
-            headers.put("Content-Type", "application/json");
-            headers.put("Authorization", "Bearer " + token);
-            return headers;
-        }
-    };
-
-    // Agregar la solicitud a la cola
-    requestQueue.add(jsonObjectRequest);
-}
-*/
-
-
-
         //RequestQueue queue = CustomVolley.newRequestQueue(this);
         RequestQueue queue = Volley.newRequestQueue(this);
         //, new HurlStack(null, newSSLSocketFactory())
-        String url = "https://192.168.8.145:8443/users/get/by/username";
+        String url = ConnectionConfig.getIp()+ "/users/get/by/username/"+username;
 
         JSONObject jsonBody = new JSONObject();
         try {
@@ -230,7 +179,7 @@ public void sendRequestWithToken(String url, JSONObject requestBody) {
         }
 
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, jsonBody,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -240,12 +189,12 @@ public void sendRequestWithToken(String url, JSONObject requestBody) {
                             String mailJSON = response.getString("mail");
                             String phoneJSON = response.getString("phone");
                             String fullNameJSON = response.getString("fullName");
-                            //Birthdate
+                            String birthdateJSON = response.getString("birthDate");
                             String profilePictureJSON = response.getString("profilePicture");
                             //Containers
 
                             byte[] byteArray = Base64.decode(profilePictureJSON, Base64.DEFAULT);
-                            User user = new User(usernameJSON,passwordJSON,mailJSON,phoneJSON,fullNameJSON,null,byteArray,null);
+                            User user = new User(usernameJSON,passwordJSON,mailJSON,phoneJSON,fullNameJSON,birthdateJSON,byteArray,null);
                             userInMemory.setUser(user);
 
                             Intent intent = new Intent(LogInForm_Screen.this, MainMenu_Screen.class);

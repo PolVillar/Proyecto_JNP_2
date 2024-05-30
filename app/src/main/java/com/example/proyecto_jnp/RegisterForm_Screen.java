@@ -2,18 +2,22 @@ package com.example.proyecto_jnp;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
@@ -23,14 +27,22 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,20 +50,35 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
+
+import model.ConnectionConfig;
+import model.Container;
 import model.User;
+import model.UserJwtInMemory;
 
 public class RegisterForm_Screen extends AppCompatActivity {
 
-    private EditText firstName, lastName,date,phone,address,password,conf_password,username,email;
+    private EditText firstName, lastName,date,phone,password,conf_password,username,email;
     private Calendar calendar;
     private Button createAccount, cancel;
     private Boolean contin = true;
+    private UserJwtInMemory userInMemory;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_form_screen);
-
+        userInMemory = UserJwtInMemory.getInstance();
         charge();
+        disableSSLCertificateChecking();
 
         date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +99,7 @@ public class RegisterForm_Screen extends AppCompatActivity {
                 contin = true;
                 for (EditText editText: editTexts) {
                     if (editText.getText().toString().isEmpty()){
-                        editText.setError("This field cannot be blank");
+                        editText.setError(getString(R.string.edit_text_empty));
                         contin = false;
                     }
                 }
@@ -99,6 +126,7 @@ public class RegisterForm_Screen extends AppCompatActivity {
                     }
                     String profilePictureVal = "null";
 
+                    registerUser(usernameVal, passwordVal, mailVal, phoneVal, fullnameVal, birthdateVal, profilePictureVal);
                 }
             }
         });
@@ -134,7 +162,6 @@ public class RegisterForm_Screen extends AppCompatActivity {
         email = findViewById(R.id.email_et);
         conf_password = findViewById(R.id.conf_password_et);
         password = findViewById(R.id.password_reg_et);
-        address = findViewById(R.id.address_et);
         username = findViewById(R.id.username_reg_et);
         cancel = findViewById(R.id.cancel_reg_bt);
         createAccount = findViewById(R.id.create_acc_bt);
@@ -142,12 +169,29 @@ public class RegisterForm_Screen extends AppCompatActivity {
     }
     private void registerUser(final String username, final String password, final String mail, final String phone, final String fullname, final Date birthdate, final String profilePicture){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://192.168.18.12:8443/users/save";
+        String url = ConnectionConfig.getIp(this)+"/auth/signup";
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String birthdateValFormatted = dateFormat.format(birthdate);
 
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("username", username);
             jsonBody.put("password", password);
+            jsonBody.put("mail",mail);
+            jsonBody.put("phone",phone);
+            jsonBody.put("fullName", fullname);
+            jsonBody.put("birthDate",birthdateValFormatted);
+
+            Drawable drawable = ContextCompat.getDrawable(this, R.drawable.profile_blank);
+            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            String pfp = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+            jsonBody.put("profilePicture", pfp);
+            //jsonBody.put("profilePicture", null);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -156,49 +200,108 @@ public class RegisterForm_Screen extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // La solicitud fue exitosa, manejar la respuesta aquí
                         try {
+                            Drawable drawable = ContextCompat.getDrawable(RegisterForm_Screen.this, R.drawable.profile_blank);
+                            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                            byte[] byteArray = stream.toByteArray();
+                            String pfp = Base64.encodeToString(byteArray, Base64.DEFAULT);
                             String usernameJSON = response.getString("username");
-                            String passwordJSON = response.getString("password");
-                            String mailJSON = response.getString("mail");
-                            String phoneJSON = response.getString("phone");
-                            String fullNameJSON = response.getString("fullName");
-                            //Birthdate
-                            //ProfilePicture
-                            //Containers
+                            String messageJSON =  response.getString("message");
+                            String jwtJSON = response.getString("jwt");
+                            Boolean statusJSON = response.getBoolean("status");
 
-                            Intent intent = new Intent(RegisterForm_Screen.this, MenuUser_Test.class);
+                            User user = new User(username,password,mail,phone,fullname,birthdateValFormatted,byteArray,null);
+                            userInMemory.setUser(user);
+                            userInMemory.setToken(jwtJSON);
+
+                            createClosets(userInMemory.getUser());
+
+                            Intent intent = new Intent(RegisterForm_Screen.this, MainMenu_Screen.class);
                             startActivity(intent);
 
-                        } catch (JSONException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // La solicitud falló, manejar el error aquí
                 if (error instanceof NetworkError) {
-                    showAlertDialog("Connection error", "Error");
-                    // Error de red (sin conexión, tiempo de espera, etc.)
+                    showAlertDialog(error.getMessage(), "Error");
                 } else if (error instanceof NoConnectionError) {
                     showAlertDialog("Connection error", "Error");
-                    // No hay conexión a Internet
                 } else if (error instanceof TimeoutError) {
                     showAlertDialog("Connection error", "Error");
-                    // Tiempo de espera agotado
                 } else if (error.networkResponse != null && error.networkResponse.statusCode == 404) {
                     showAlertDialog("The username or the password are incorrect, please try again", "Error");
-                    // Código de respuesta 404 - Recurso no encontrado
                 } else {
-                    // Otro tipo de error no reconocido
-                    showAlertDialog("Error", "Error");
+                    showAlertDialog("The mail or username are already in use", "Error");
                 }
             }
-        }){
-    };
+        });
+
         queue.add(jsonObjectRequest);
     }
+    private void createClosets(User user){
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = ConnectionConfig.getIp(this) + "/containers/save";
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("id", 0);
+            jsonBody.put("name", "Closet nº1");
+            jsonBody.put("type", Container.Type.CLOSET);
+
+            JSONObject ownerObj = new JSONObject();
+            ownerObj.put("username", user.getUsername());
+            ownerObj.put("password", user.getPassword());
+            ownerObj.put("mail", user.getMail());
+            ownerObj.put("phone", user.getPhone());
+            ownerObj.put("fullName", user.getFullName());
+            ownerObj.put("birthDate", user.getBirthDate());
+            ownerObj.put("profilePicture", null);
+
+            jsonBody.put("owner", ownerObj);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("CreateClosetsResponse", "Closet created successfully: " + response.toString());
+                        try {
+                            // Process the response if needed
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error.networkResponse != null) {
+                            Log.e("CreateClosetsError", "Error: " + new String(error.networkResponse.data));
+                        } else {
+                            Log.e("CreateClosetsError", "Error: " + error.getMessage());
+                        }
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "Bearer " + userInMemory.getToken());
+                return headers;
+            }
+        };
+
+        queue.add(jsonObjectRequest);
+    }
+
     private void showAlertDialog(String message, String title) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
@@ -213,5 +316,54 @@ public class RegisterForm_Screen extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+    private SSLSocketFactory newSSLSocketFactory(){
+        try {
+            InputStream certificate = getResources().openRawResource(R.raw.marianaows2);
+            KeyStore keyStore = KeyStore.getInstance("BKS");
+            keyStore.load(certificate, "marianaoclosetpoljuan".toCharArray());
+
+            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            keyManagerFactory.init(keyStore, "marianaoclosetpoljuan".toCharArray());
+
+            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            trustManagerFactory.init(keyStore);
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), null);
+            return sslContext.getSocketFactory();
+        } catch (NoSuchAlgorithmException | KeyStoreException | KeyManagementException |
+                 UnrecoverableKeyException | CertificateException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static void disableSSLCertificateChecking() {
+        TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+            public X509Certificate[] getAcceptedIssuers() {
+                return null;
+            }
+
+            @Override
+            public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+                // Not implemented
+            }
+
+            @Override
+            public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+                // Not implemented
+            }
+        } };
+
+        try {
+            SSLContext sc = SSLContext.getInstance("TLS");
+
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() { @Override public boolean verify(String hostname, SSLSession session) { return true; } });
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 }

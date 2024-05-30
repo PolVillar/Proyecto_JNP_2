@@ -1,30 +1,17 @@
 package model;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
-@Data
-@NoArgsConstructor
-@SuperBuilder
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class User {
     private String username;
     private String password;
     private String mail;
     private String phone;
     private String fullName;
-    private Date birthDate;
+    private String birthDate;
     private byte[] profilePicture;
     private List<Container> containers;
 
@@ -68,11 +55,11 @@ public class User {
         this.fullName = fullName;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -94,7 +81,7 @@ public class User {
 
 
 
-    public User(String username, String password, String mail, String phone, String fullName, Date birthDate, byte[] profilePicture, List<Container> containers) {
+    public User(String username, String password, String mail, String phone, String fullName, String birthDate, byte[] profilePicture, List<Container> containers) {
         this.username = username;
         this.password = password;
         this.mail = mail;
@@ -105,11 +92,11 @@ public class User {
         this.containers = containers;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     public String getBase64Image() {
         return Base64.getEncoder().encodeToString(profilePicture);
     }
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     public void setBase64Image(String b64Image) {
         this.profilePicture=Base64.getDecoder().decode(b64Image);
     }

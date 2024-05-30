@@ -1,0 +1,56 @@
+package com.example.proyecto_jnp;
+
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import androidx.appcompat.widget.Toolbar;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import model.Clothes;
+import model.RecyclerViewAdapter;
+
+public class GeneralClosetSuitcase extends AppCompatActivity {
+
+    private RecyclerView recyclerView;
+    private RecyclerViewAdapter adapter;
+    private List<Clothes> itemList;
+    private List<Drawable> clothesImgs;
+    private List<String> clothesNames;
+    private List<Date> clothesDates;
+    private Toolbar toolbar;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_suitcase);
+        toolbar = findViewById(R.id.toolbar4);
+        setSupportActionBar(toolbar);
+        Intent intent = getIntent();
+        getSupportActionBar().setTitle(intent.getStringExtra("closetName"));
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        //Añadir items del JSON
+        /*itemList = new ArrayList<>();
+        itemList.add(new Clothes());
+        itemList.add(new Clothes());
+        itemList.add(new Clothes());*/
+
+        clothesImgs = new ArrayList<>();
+        clothesNames = new ArrayList<>();
+        clothesDates = new ArrayList<>();
+
+
+
+        adapter = new RecyclerViewAdapter(this,clothesImgs,clothesNames,clothesDates);
+        recyclerView.setAdapter(adapter);
+    }
+}

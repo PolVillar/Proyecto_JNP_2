@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
     private void abrirSuitcase(){
-        Intent intent = new Intent(this, GeneralClosetSuitcase.class);
+        Intent intent = new Intent(this, AllCloset.class);
         startActivity(intent);
     }
     private void carga(){

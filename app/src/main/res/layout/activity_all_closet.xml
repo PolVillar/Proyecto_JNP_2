@@ -6,86 +6,86 @@
     android:layout_height="match_parent"
     tools:context=".AllCloset">
 
+
     <ImageView
         android:id="@+id/ivCloset1"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toStartOf="@+id/guideline9"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:srcCompat="@drawable/closet_but" />
 
     <ImageView
         android:id="@+id/ivCloset2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toStartOf="@+id/guideline8"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:srcCompat="@drawable/closet_but" />
 
     <ImageView
         android:id="@+id/ivCloset3"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="4dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toStartOf="@+id/guideline9"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
         app:layout_constraintTop_toTopOf="@+id/guideline12"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:srcCompat="@drawable/closet_but" />
 
     <ImageView
         android:id="@+id/ivCloset4"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toStartOf="@+id/guideline8"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toTopOf="@+id/guideline12"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:srcCompat="@drawable/closet_but" />
 
     <ImageView
         android:id="@+id/ivCloset5"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toStartOf="@+id/guideline9"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
         app:layout_constraintTop_toTopOf="@+id/guideline13"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:srcCompat="@drawable/closet_but" />
 
     <ImageView
         android:id="@+id/ivCloset6"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toStartOf="@+id/guideline8"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toTopOf="@+id/guideline13"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:srcCompat="@drawable/closet_but" />
 
     <ImageView
         android:id="@+id/ivSuitcase1"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline11"
         app:layout_constraintEnd_toStartOf="@+id/guideline9"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
         app:layout_constraintTop_toTopOf="@+id/guideline14"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:srcCompat="@drawable/suitcase_but" />
 
     <ImageView
         android:id="@+id/ivSuitcase2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline11"
         app:layout_constraintEnd_toStartOf="@+id/guideline8"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toTopOf="@+id/guideline14"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:srcCompat="@drawable/suitcase_but" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar5"
@@ -184,4 +184,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.71" />
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

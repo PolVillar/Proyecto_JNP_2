@@ -3,9 +3,13 @@ package com.example.proyecto_jnp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.google.gson.Gson;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
@@ -32,6 +36,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +51,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
+import model.Closet;
 import model.ConnectionConfig;
 import model.UserJwtInMemory;
 
@@ -53,12 +59,17 @@ public class AllCloset extends AppCompatActivity {
 
     private Toolbar toolbar;
     private UserJwtInMemory userInMemory;
+    private int countClosets;
+    private List<ImageView> closetList;
+    private List<ImageView> suitcaseList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_closet);
         userInMemory = UserJwtInMemory.getInstance();
+        /*charge();
+        countClosetsQuery();*/
 
         // Configura la Toolbar
         toolbar = findViewById(R.id.toolbar5);
@@ -81,13 +92,13 @@ public class AllCloset extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void registerUser() {
+    private void countClosetsQuery() {
         RequestQueue queue = Volley.newRequestQueue(this, new HurlStack(null, newSSLSocketFactory()));
-        String url = ConnectionConfig.getIp() + "/containers/find/all/CLOSETS";
+        String url = ConnectionConfig.getIp(this) + "/containers/find/all/CLOSETS";
 
         JSONObject jsonBody = new JSONObject();
         try {
-            jsonBody.put("owner",userInMemory.getUser().getUsername());
+            jsonBody.put("owner", userInMemory.getUser().getUsername());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -110,6 +121,29 @@ public class AllCloset extends AppCompatActivity {
                                 Log.d("AllCloset", "Closet Name: " + closet.getName());
                                 // Manejar la respuesta del servidor
                             }
+                            countClosets = closets.size();
+
+                            // Actualiza la lista de ImageView y configura la visibilidad y los clics
+                            closetList = new ArrayList<>();
+                            closetList.add(findViewById(R.id.ivCloset1));
+                            closetList.add(findViewById(R.id.ivCloset2));
+                            closetList.add(findViewById(R.id.ivCloset3));
+                            closetList.add(findViewById(R.id.ivCloset4));
+                            closetList.add(findViewById(R.id.ivCloset5));
+                            closetList.add(findViewById(R.id.ivCloset6));
+
+                            for (int i = 0; i < countClosets; i++) {
+                                ImageView closet = closetList.get(i);
+                                closet.setVisibility(View.VISIBLE);
+
+                                closet.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent intent = new Intent(AllCloset.this, GeneralClosetSuitcase.class);
+                                        startActivity(intent);
+                                    }
+                                });
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -118,24 +152,22 @@ public class AllCloset extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        // Maneja el error
                     }
-
-
-    }){
-        @Override
-        public Map<String, String> getHeaders() {
-            Map<String, String> headers = new HashMap<>();
-            headers.put("Content-Type", "application/json");
-            headers.put("Authorization", "Bearer " + userInMemory.getToken());
-            return headers;
-        }
-    };
-
+                }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "Bearer " + userInMemory.getToken());
+                return headers;
+            }
+        };
 
         queue.add(jsonObjectRequest);
     }
-    private SSLSocketFactory newSSLSocketFactory(){
+
+    private SSLSocketFactory newSSLSocketFactory() {
         try {
             InputStream certificate = getResources().openRawResource(R.raw.marianaows2);
             KeyStore keyStore = KeyStore.getInstance("BKS");
@@ -154,6 +186,7 @@ public class AllCloset extends AppCompatActivity {
             throw new RuntimeException(e);
         }
     }
+
     public static void disableSSLCertificateChecking() {
         TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
             public X509Certificate[] getAcceptedIssuers() {
@@ -173,16 +206,20 @@ public class AllCloset extends AppCompatActivity {
 
         try {
             SSLContext sc = SSLContext.getInstance("TLS");
-
             sc.init(null, trustAllCerts, new java.security.SecureRandom());
-
             HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() { @Override public boolean verify(String hostname, SSLSession session) { return true; } });
-        } catch (KeyManagementException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
+            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+                @Override public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            });
+        } catch (KeyManagementException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
     }
 
+    private void charge() {
+        // Aquí puedes inicializar los ImageView
+        // No necesitas agregar a la lista en este punto
+    }
 }

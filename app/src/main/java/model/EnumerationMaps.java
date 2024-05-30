@@ -9,21 +9,13 @@ import java.util.HashMap;
 
 public class EnumerationMaps {
     private Context context;
-    private String winter=context.getString(R.string.collection_winter);
-    private String spring=context.getString(R.string.collection_spring);
-    private String summer=context.getString(R.string.collection_summer);
-    private String autumn=context.getString(R.string.collection_autumn);
-    private String jacket=context.getString(R.string.category_jacket);
-    private String shirt=context.getString(R.string.category_shirt);
-    private String pants=context.getString(R.string.category_pants);
-    private String shoes=context.getString(R.string.category_shoes);
-    private String underwear=context.getString(R.string.category_underwear);
-    private String complement=context.getString(R.string.category_complement);
-    public static final HashMap<String, Clothes.Collection> collections= new HashMap<>();
-    public static final HashMap<String, Clothes.Category> categories= new HashMap<>();
+    private String winter,spring,summer,autumn,jacket,shirt,pants,shoes,underwear,complement;
+    private final HashMap<String, Clothes.Collection> collections= new HashMap<>();
+    private final HashMap<String, Clothes.Category> categories= new HashMap<>();
 
     public EnumerationMaps(Context context) {
         this.context = context;
+        initialize();
         collections.put(winter, Clothes.Collection.WINTER);
         collections.put(spring, Clothes.Collection.SPRING);
         collections.put(summer, Clothes.Collection.SUMMER);
@@ -34,5 +26,25 @@ public class EnumerationMaps {
         categories.put(shoes, Clothes.Category.SHOES);
         categories.put(underwear, Clothes.Category.UNDERWEAR);
         categories.put(complement, Clothes.Category.COMPLEMENT);
+    }
+    private void initialize(){
+        winter=context.getString(R.string.collection_winter);
+        spring=context.getString(R.string.collection_spring);
+        summer=context.getString(R.string.collection_summer);
+        autumn=context.getString(R.string.collection_autumn);
+        jacket=context.getString(R.string.category_jacket);
+        shirt=context.getString(R.string.category_shirt);
+        pants=context.getString(R.string.category_pants);
+        shoes=context.getString(R.string.category_shoes);
+        underwear=context.getString(R.string.category_underwear);
+        complement=context.getString(R.string.category_complement);
+    }
+
+    public HashMap<String, Clothes.Collection> getCollections() {
+        return collections;
+    }
+
+    public HashMap<String, Clothes.Category> getCategories() {
+        return categories;
     }
 }

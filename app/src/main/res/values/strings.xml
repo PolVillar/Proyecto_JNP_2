@@ -55,12 +55,14 @@
     <string name="category_underwear">Underwear</string>
     <string name="category_complement">Complement</string>
     <string name="title_activity_settings">SettingsActivity</string>
-    <!-- Preference Titles -->
     <string name="server_ip_title">Server IP</string>
-
-
-    <!-- Messages Preferences -->
     <string name="server_ip_summary">Insert the ip of the app server</string>
+    <string name="create">CREATE</string>
+    <string name="clothe_name">Name</string>
+    <string name="color">Color</string>
+    <string name="size">Size</string>
+    <string name="category">Category:</string>
+    <string name="collection">Collection:</string>
 
 
 </resources>

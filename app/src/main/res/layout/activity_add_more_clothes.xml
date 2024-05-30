@@ -39,7 +39,8 @@
                 android:id="@+id/ivNewClothe"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                tools:srcCompat="@tools:sample/avatars" />
+                android:onClick="onClickAddImage"
+                app:srcCompat="@drawable/baseline_add_photo_alternate_24" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -56,7 +57,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:ems="10"
-                        android:hint="Name"
+                        android:hint="@string/clothe_name"
                         android:inputType="text" />
 
                     <EditText
@@ -64,7 +65,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:ems="10"
-                        android:hint="Color"
+                        android:hint="@string/color"
                         android:inputType="text" />
 
                     <EditText
@@ -72,63 +73,45 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:ems="10"
-                        android:hint="Size"
-                        android:inputType="text" />
+                        android:hint="@string/size"
+                        android:inputType="text"
+                        tools:ignore="TextFields" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="end"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/tvCategory"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="5dp"
                         android:layout_weight="0"
-                        android:gravity="end"
-                        android:orientation="horizontal">
+                        android:text="@string/category"
+                        android:textSize="20sp" />
 
-                        <TextView
-                            android:id="@+id/tvCategory"
-                            android:layout_width="wrap_content"
-                            android:layout_height="48dp"
-                            android:layout_weight="0"
-                            android:text="Category"
-                            android:textSize="20sp" />
+                    <Spinner
+                        android:id="@+id/spCategory"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="0"
+                        android:gravity="end" />
 
-                        <Spinner
-                            android:id="@+id/spCategory"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_weight="0"
-                            android:gravity="end" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/tvCollection"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
+                        android:layout_weight="0"
+                        android:text="@string/collection"
+                        android:textSize="20sp" />
 
-                        <TextView
-                            android:id="@+id/tvCollection"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0"
-                            android:text="Collection"
-                            android:textSize="20sp" />
-
-                        <Spinner
-                            android:id="@+id/spCollection"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
-                    </LinearLayout>
+                    <Spinner
+                        android:id="@+id/spCollection"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_weight="0" />
 
                 </LinearLayout>
 
@@ -138,7 +121,8 @@
                 android:id="@+id/bCreateClothe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:onClick="onClickCreate"
+                android:text="@string/create" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

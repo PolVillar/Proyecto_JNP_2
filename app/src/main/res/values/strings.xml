@@ -11,6 +11,7 @@
     <string name="cPassword">Confirm Password</string>
     <string name="phone">Phone Number</string>
     <string name="address">Address</string>
+    <string name="edit_text_empty">This field cannot be blank</string>
     <string name="forgot_password">Did you forget your password?</string>
     <string name="or">or</string>
     <string name="sign_google">Sign in with Google</string>
@@ -43,14 +44,25 @@
     <string name="all_suitcases">ALL SUITCASES</string>
     <string name="all_list">ALL</string>
     <string name="last_use_null">Not used yet</string>
+    <string name="collection_winter">Winter</string>
+    <string name="collection_spring">Spring</string>
+    <string name="collection_summer">Summer</string>
+    <string name="collection_autumn">Autumn</string>
+    <string name="category_jacket">Jacket</string>
+    <string name="category_shirt">Sweater-Shirt</string>
+    <string name="category_pants">Pants_Skirt</string>
+    <string name="category_shoes">Shoes</string>
+    <string name="category_underwear">Underwear</string>
+    <string name="category_complement">Complement</string>
     <string name="title_activity_settings">SettingsActivity</string>
-
-    <!-- Preference Titles -->
     <string name="server_ip_title">Server IP</string>
-
-
-    <!-- Messages Preferences -->
     <string name="server_ip_summary">Insert the ip of the app server</string>
+    <string name="create">CREATE</string>
+    <string name="clothe_name">Name</string>
+    <string name="color">Color</string>
+    <string name="size">Size</string>
+    <string name="category">Category:</string>
+    <string name="collection">Collection:</string>
 
 
 </resources>

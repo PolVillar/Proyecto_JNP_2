@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         pruebaSuitcase = findViewById(R.id.suitcase_trial);
     }
     public void abrirIp(View view){
-        startActivity(new Intent(this, SettingsActivity.class));
+        startActivity(new Intent(this, AddMoreClothes.class));
     }
 
 }

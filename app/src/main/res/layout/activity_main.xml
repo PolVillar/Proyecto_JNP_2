@@ -68,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="abrirIp"
-        android:text="IPServer"
+        android:text="new clothe"
         app:layout_constraintBottom_toTopOf="@+id/pruebaloginform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

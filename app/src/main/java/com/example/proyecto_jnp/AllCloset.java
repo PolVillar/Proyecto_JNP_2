@@ -2,6 +2,8 @@ package com.example.proyecto_jnp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.gson.Gson;
 
 import android.content.Intent;
@@ -23,6 +25,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,6 +37,7 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
+import java.security.acl.Owner;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -52,7 +56,10 @@ import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
 import model.Closet;
+import model.Clothes;
 import model.ConnectionConfig;
+import model.Container;
+import model.User;
 import model.UserJwtInMemory;
 
 public class AllCloset extends AppCompatActivity {
@@ -60,7 +67,8 @@ public class AllCloset extends AppCompatActivity {
     private Toolbar toolbar;
     private UserJwtInMemory userInMemory;
     private int countClosets;
-    private List<ImageView> closetList;
+    private List<Closet> closetList;
+    private List<ImageView> closetListImgs;
     private List<ImageView> suitcaseList;
 
     @Override
@@ -68,8 +76,11 @@ public class AllCloset extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_closet);
         userInMemory = UserJwtInMemory.getInstance();
-        /*charge();
-        countClosetsQuery();*/
+        disableSSLCertificateChecking();
+        charge();
+        closetList= new ArrayList<>();
+        closetListImgs= new ArrayList<>();
+        countClosetsQuery();
 
         // Configura la Toolbar
         toolbar = findViewById(R.id.toolbar5);
@@ -94,65 +105,63 @@ public class AllCloset extends AppCompatActivity {
 
     private void countClosetsQuery() {
         RequestQueue queue = Volley.newRequestQueue(this, new HurlStack(null, newSSLSocketFactory()));
-        String url = ConnectionConfig.getIp(this) + "/containers/find/all/CLOSETS";
+        String ownerUsername = userInMemory.getUser().getUsername();
+        String url = ConnectionConfig.getIp(this) + "/containers/find/all/CLOSETS?owner=" + ownerUsername;
 
-        JSONObject jsonBody = new JSONObject();
-        try {
-            jsonBody.put("owner", userInMemory.getUser().getUsername());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
                 url,
-                jsonBody,
-                new Response.Listener<JSONObject>() {
+                null, // No need for a request body
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            Gson gson = new Gson();
-                            Type listType = new TypeToken<List<Closet>>() {}.getType();
-                            List<Closet> closets = gson.fromJson(response.toString(), listType);
+                    public void onResponse(JSONArray response) {
+                        for (int i=0;i<response.length();i++){
 
-                            // Aquí puedes trabajar con la lista de closets
-                            for (Closet closet : closets) {
-                                Log.d("AllCloset", "Closet ID: " + closet.getId());
-                                Log.d("AllCloset", "Closet Name: " + closet.getName());
-                                // Manejar la respuesta del servidor
+                            try {
+                                JSONObject responseObj = response.getJSONObject(i);
+
+                                // now we get our response from API in json object format.
+                                // in below line we are extracting a string with
+                                // its key value from our json object.
+                                // similarly we are extracting all the strings from our json object.
+                                Long closetId = responseObj.getLong("id");
+                                String name = responseObj.getString("name");
+                                Closet closet = new Closet(closetId,  name, Container.Type.CLOSET, userInMemory.getUser(), null);
+                                closetList.add(closet);
+
+                                // Further code to handle the closets
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                            countClosets = closets.size();
 
-                            // Actualiza la lista de ImageView y configura la visibilidad y los clics
-                            closetList = new ArrayList<>();
-                            closetList.add(findViewById(R.id.ivCloset1));
-                            closetList.add(findViewById(R.id.ivCloset2));
-                            closetList.add(findViewById(R.id.ivCloset3));
-                            closetList.add(findViewById(R.id.ivCloset4));
-                            closetList.add(findViewById(R.id.ivCloset5));
-                            closetList.add(findViewById(R.id.ivCloset6));
-
-                            for (int i = 0; i < countClosets; i++) {
-                                ImageView closet = closetList.get(i);
-                                closet.setVisibility(View.VISIBLE);
-
-                                closet.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Intent intent = new Intent(AllCloset.this, GeneralClosetSuitcase.class);
-                                        startActivity(intent);
-                                    }
-                                });
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        }
+                        countClosets=closetList.size();
+                        closetListImgs.add(findViewById(R.id.ivCloset1));
+                        closetListImgs.add(findViewById(R.id.ivCloset2));
+                        closetListImgs.add(findViewById(R.id.ivCloset3));
+                        closetListImgs.add(findViewById(R.id.ivCloset4));
+                        closetListImgs.add(findViewById(R.id.ivCloset5));
+                        closetListImgs.add(findViewById(R.id.ivCloset6));
+                        for (int i =0;i<countClosets; i++){
+                            ImageView closet = closetListImgs.get(i);
+                            closet.setVisibility(View.VISIBLE);
+                            String closetName = closetList.get(i).getName();
+                            closet.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(AllCloset.this,GeneralClosetSuitcase.class);
+                                    intent.putExtra("closetName",closetName);
+                                    startActivity(intent);
+                                }
+                            });
                         }
                     }
+
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Maneja el error
+                        Log.d("aiuda", error.getMessage());
                     }
                 }) {
             @Override
@@ -164,8 +173,9 @@ public class AllCloset extends AppCompatActivity {
             }
         };
 
-        queue.add(jsonObjectRequest);
+        queue.add(jsonArrayRequest);
     }
+
 
     private SSLSocketFactory newSSLSocketFactory() {
         try {

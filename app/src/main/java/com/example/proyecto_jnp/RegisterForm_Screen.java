@@ -12,6 +12,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -28,6 +29,7 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,6 +47,8 @@ import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -57,6 +61,7 @@ import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
 import model.ConnectionConfig;
+import model.Container;
 import model.User;
 import model.UserJwtInMemory;
 
@@ -211,6 +216,8 @@ public class RegisterForm_Screen extends AppCompatActivity {
                             userInMemory.setUser(user);
                             userInMemory.setToken(jwtJSON);
 
+                            createClosets(userInMemory.getUser());
+
                             Intent intent = new Intent(RegisterForm_Screen.this, MainMenu_Screen.class);
                             startActivity(intent);
 
@@ -237,6 +244,64 @@ public class RegisterForm_Screen extends AppCompatActivity {
 
         queue.add(jsonObjectRequest);
     }
+    private void createClosets(User user){
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = ConnectionConfig.getIp(this) + "/containers/save";
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("id", 0);
+            jsonBody.put("name", "Closet nº1");
+            jsonBody.put("type", Container.Type.CLOSET);
+
+            JSONObject ownerObj = new JSONObject();
+            ownerObj.put("username", user.getUsername());
+            ownerObj.put("password", user.getPassword());
+            ownerObj.put("mail", user.getMail());
+            ownerObj.put("phone", user.getPhone());
+            ownerObj.put("fullName", user.getFullName());
+            ownerObj.put("birthDate", user.getBirthDate());
+            ownerObj.put("profilePicture", null);
+
+            jsonBody.put("owner", ownerObj);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("CreateClosetsResponse", "Closet created successfully: " + response.toString());
+                        try {
+                            // Process the response if needed
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error.networkResponse != null) {
+                            Log.e("CreateClosetsError", "Error: " + new String(error.networkResponse.data));
+                        } else {
+                            Log.e("CreateClosetsError", "Error: " + error.getMessage());
+                        }
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "Bearer " + userInMemory.getToken());
+                return headers;
+            }
+        };
+
+        queue.add(jsonObjectRequest);
+    }
+
     private void showAlertDialog(String message, String title) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);

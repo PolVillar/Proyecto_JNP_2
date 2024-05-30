@@ -1,7 +1,9 @@
 package com.example.proyecto_jnp;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,12 +24,16 @@ public class GeneralClosetSuitcase extends AppCompatActivity {
     private List<Drawable> clothesImgs;
     private List<String> clothesNames;
     private List<Date> clothesDates;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suitcase);
-
+        toolbar = findViewById(R.id.toolbar4);
+        setSupportActionBar(toolbar);
+        Intent intent = getIntent();
+        getSupportActionBar().setTitle(intent.getStringExtra("closetName"));
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

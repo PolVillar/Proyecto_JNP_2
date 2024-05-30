@@ -90,6 +90,15 @@ public class AddMoreClothes extends AppCompatActivity {
         }
     }
     public void onClickAddImage(View view){
-        launcher.launch(new Intent(MediaStore.ACTION_IMAGE_CAPTURE));
+        Intent galleryIntent = new Intent();
+        galleryIntent.setType("image/*");
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent chooser = new Intent(Intent.ACTION_CHOOSER);
+        chooser.putExtra(Intent.EXTRA_INTENT, galleryIntent);
+        chooser.putExtra(Intent.EXTRA_TITLE, "Select from:");
+        Intent[] intentArray = { cameraIntent };
+        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
+        launcher.launch(chooser);
     }
 }

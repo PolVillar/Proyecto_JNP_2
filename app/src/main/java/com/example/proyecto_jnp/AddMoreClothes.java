@@ -77,11 +77,15 @@ public class AddMoreClothes extends AppCompatActivity {
     }
     private void initializeLauncher(){
         launcher= registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            if(result.getData()!=null){
-                Bitmap photoBitmap= (Bitmap) result.getData().getExtras().get("data");
-                if(photoBitmap!=null) ivNewClothe.setImageBitmap(photoBitmap);
+            Intent intent= result.getData();
+            if(intent!=null){
+                Bundle bundle=intent.getExtras();
+                if(bundle!=null){
+                    Bitmap photoBitmap= (Bitmap) bundle.get("data");
+                    if(photoBitmap!=null) ivNewClothe.setImageBitmap(photoBitmap);
+                }
                 else{
-                    Uri photoUri = result.getData().getData();
+                    Uri photoUri = intent.getData();
                     if(photoUri!=null) {
                         try {
                             ivNewClothe.setImageBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri));

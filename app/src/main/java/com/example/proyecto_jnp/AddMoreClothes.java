@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -61,10 +63,7 @@ public class AddMoreClothes extends AppCompatActivity {
         collections= new ArrayList<>(Arrays.asList(getString(R.string.collection_winter),
                 getString(R.string.collection_spring),getString(R.string.collection_summer),getString(R.string.collection_autumn)));
         maps= new EnumerationMaps(this);
-        launcher= registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            Bitmap photo= (Bitmap) result.getData().getExtras().get("data");
-            ivNewClothe.setImageBitmap(photo);
-        });
+        initializeLauncher();
     }
     private void setAdapters(){
         ArrayAdapter<String> collectionsAdapter =
@@ -75,6 +74,24 @@ public class AddMoreClothes extends AppCompatActivity {
                 new ArrayAdapter<>(this,
                         android.R.layout.simple_list_item_1, categories);
         spCategory.setAdapter(categoriesAdapter);
+    }
+    private void initializeLauncher(){
+        launcher= registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if(result.getData()!=null){
+                Bitmap photoBitmap= (Bitmap) result.getData().getExtras().get("data");
+                if(photoBitmap!=null) ivNewClothe.setImageBitmap(photoBitmap);
+                else{
+                    Uri photoUri = result.getData().getData();
+                    if(photoUri!=null) {
+                        try {
+                            ivNewClothe.setImageBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri));
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+            }
+        });
     }
     public void onClickCreate(View view){
         if(etName.getText().toString().isEmpty()) etName.setError(getString(R.string.edit_text_empty));

@@ -20,12 +20,12 @@ public class Clothes {
     private String color;
     private String size;
     private byte[] picture;
-    private Collection collection;
-    private Category category;
+    private String collection;
+    private String category;
     private Container container;
     private Date lastUse;
 
-    public Clothes(Long id, String name, String color, String size, byte[] picture, Collection collection, Category category, Container container, Date lastUse) {
+    public Clothes(Long id, String name, String color, String size, byte[] picture, String collection, String category, Container container, Date lastUse) {
         this.id = id;
         this.name = name;
         this.color = color;
@@ -77,19 +77,19 @@ public class Clothes {
         this.picture = picture;
     }
 
-    public Collection getCollection() {
+    public String getCollection() {
         return collection;
     }
 
-    public void setCollection(Collection collection) {
+    public void setCollection(String collection) {
         this.collection = collection;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 

@@ -1,12 +1,5 @@
 package com.example.proyecto_jnp;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.google.gson.Gson;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,19 +9,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,13 +29,11 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Type;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
-import java.security.acl.Owner;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -61,7 +52,6 @@ import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
 import model.Closet;
-import model.Clothes;
 import model.ConnectionConfig;
 import model.Container;
 import model.Suitcase;
@@ -73,6 +63,7 @@ public class AllCloset extends AppCompatActivity {
     private Toolbar toolbar;
     private static int MAX_CLOSETS =6, MAX_SUITCASES=2;
     private UserJwtInMemory userInMemory;
+    private SSLUtils sslUtils;
     private int countClosets,countSuitcases;
     private List<Closet> closetList;
     private List<ImageView> closetListImgs;
@@ -86,7 +77,7 @@ public class AllCloset extends AppCompatActivity {
         userInMemory = UserJwtInMemory.getInstance();
         User checkUser = userInMemory.getUser();
         if (checkUser==null)finish();
-        disableSSLCertificateChecking();
+        sslUtils.disableSSLCertificateChecking();
         charge();
         closetList= new ArrayList<>();
         closetListImgs= new ArrayList<>();
@@ -231,7 +222,7 @@ public class AllCloset extends AppCompatActivity {
         builder.show();
     }
     private void createClosets(User user, String name){
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = Volley.newRequestQueue(this,new HurlStack(null,sslUtils.newSSLSocketFactory()));
         String url = ConnectionConfig.getIp(this) + "/containers/save";
 
         JSONObject jsonBody = new JSONObject();
@@ -288,7 +279,7 @@ public class AllCloset extends AppCompatActivity {
         queue.add(jsonObjectRequest);
     }
     private void createSuitcases(User user, String name){
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = Volley.newRequestQueue(this,new HurlStack(null,sslUtils.newSSLSocketFactory()));
         String url = ConnectionConfig.getIp(this) + "/containers/save";
 
         JSONObject jsonBody = new JSONObject();
@@ -437,7 +428,7 @@ public class AllCloset extends AppCompatActivity {
 
     private SSLSocketFactory newSSLSocketFactory() {
         try {
-            InputStream certificate = getResources().openRawResource(R.raw.marianaows2);
+            InputStream certificate = getResources().openRawResource(R.raw.marianaows);
             KeyStore keyStore = KeyStore.getInstance("BKS");
             keyStore.load(certificate, "marianaoclosetpoljuan".toCharArray());
 
@@ -454,40 +445,7 @@ public class AllCloset extends AppCompatActivity {
             throw new RuntimeException(e);
         }
     }
-
-    public static void disableSSLCertificateChecking() {
-        TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
-            public X509Certificate[] getAcceptedIssuers() {
-                return null;
-            }
-
-            @Override
-            public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-                // Not implemented
-            }
-
-            @Override
-            public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-                // Not implemented
-            }
-        } };
-
-        try {
-            SSLContext sc = SSLContext.getInstance("TLS");
-            sc.init(null, trustAllCerts, new java.security.SecureRandom());
-            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
-                @Override public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            });
-        } catch (KeyManagementException | NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void charge() {
-        // Aquí puedes inicializar los ImageView
-        // No necesitas agregar a la lista en este punto
+        sslUtils= new SSLUtils(this);
     }
 }

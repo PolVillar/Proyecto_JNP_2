@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,7 +30,6 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -72,13 +72,16 @@ public class RegisterForm_Screen extends AppCompatActivity {
     private Button createAccount, cancel;
     private Boolean contin = true;
     private UserJwtInMemory userInMemory;
+    private SSLUtils sslUtils;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_form_screen);
         userInMemory = UserJwtInMemory.getInstance();
         charge();
-        disableSSLCertificateChecking();
+        sslUtils= new SSLUtils(this);
+        sslUtils.disableSSLCertificateChecking();
+
 
         date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,7 +171,7 @@ public class RegisterForm_Screen extends AppCompatActivity {
         calendar = Calendar.getInstance();
     }
     private void registerUser(final String username, final String password, final String mail, final String phone, final String fullname, final Date birthdate, final String profilePicture){
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = Volley.newRequestQueue(this,new HurlStack(null,sslUtils.newSSLSocketFactory()));
         String url = ConnectionConfig.getIp(this)+"/auth/signup";
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -246,7 +249,7 @@ public class RegisterForm_Screen extends AppCompatActivity {
         queue.add(jsonObjectRequest);
     }
     private void createClosets(User user){
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = Volley.newRequestQueue(this,new HurlStack(null,sslUtils.newSSLSocketFactory()));
         String url = ConnectionConfig.getIp(this) + "/containers/save";
 
         JSONObject jsonBody = new JSONObject();
@@ -303,7 +306,7 @@ public class RegisterForm_Screen extends AppCompatActivity {
         queue.add(jsonObjectRequest);
     }
     private void createSuitcases(User user){
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = Volley.newRequestQueue(this,new HurlStack(null,sslUtils.newSSLSocketFactory()));
         String url = ConnectionConfig.getIp(this) + "/containers/save";
 
         JSONObject jsonBody = new JSONObject();
@@ -374,54 +377,5 @@ public class RegisterForm_Screen extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
-    }
-    private SSLSocketFactory newSSLSocketFactory(){
-        try {
-            InputStream certificate = getResources().openRawResource(R.raw.marianaows2);
-            KeyStore keyStore = KeyStore.getInstance("BKS");
-            keyStore.load(certificate, "marianaoclosetpoljuan".toCharArray());
-
-            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-            keyManagerFactory.init(keyStore, "marianaoclosetpoljuan".toCharArray());
-
-            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-            trustManagerFactory.init(keyStore);
-            SSLContext sslContext = SSLContext.getInstance("TLS");
-            sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), null);
-            return sslContext.getSocketFactory();
-        } catch (NoSuchAlgorithmException | KeyStoreException | KeyManagementException |
-                 UnrecoverableKeyException | CertificateException | IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public static void disableSSLCertificateChecking() {
-        TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
-            public X509Certificate[] getAcceptedIssuers() {
-                return null;
-            }
-
-            @Override
-            public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-                // Not implemented
-            }
-
-            @Override
-            public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-                // Not implemented
-            }
-        } };
-
-        try {
-            SSLContext sc = SSLContext.getInstance("TLS");
-
-            sc.init(null, trustAllCerts, new java.security.SecureRandom());
-
-            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() { @Override public boolean verify(String hostname, SSLSession session) { return true; } });
-        } catch (KeyManagementException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
     }
 }

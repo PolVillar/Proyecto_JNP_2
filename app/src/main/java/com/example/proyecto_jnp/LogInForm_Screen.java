@@ -14,6 +14,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -61,14 +62,16 @@ public class LogInForm_Screen extends AppCompatActivity {
     private static final String TAG = "LogInForm_Screen";
     private Boolean check=true;
     private UserJwtInMemory userInMemory;
+    private SSLUtils sslUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in_form_screen);
-        disableSSLCertificateChecking();
         charge();
         userInMemory = UserJwtInMemory.getInstance();
+        sslUtils= new SSLUtils(this);
+        sslUtils.disableSSLCertificateChecking();
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,7 +127,7 @@ public class LogInForm_Screen extends AppCompatActivity {
     }
 
     private void authenticateToken(final String username, final String password){
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = Volley.newRequestQueue(this,new HurlStack(null,sslUtils.newSSLSocketFactory()));
         String url = ConnectionConfig.getIp(this)+"/auth/login";
         JSONObject jsonBody = new JSONObject();
         try {
@@ -172,8 +175,7 @@ public class LogInForm_Screen extends AppCompatActivity {
 
 
     private void authenticateUser(final String username, String token){
-        //RequestQueue queue = CustomVolley.newRequestQueue(this);
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = Volley.newRequestQueue(this,new HurlStack(null,sslUtils.newSSLSocketFactory()));
         //, new HurlStack(null, newSSLSocketFactory())
         String url = ConnectionConfig.getIp(this)+ "/users/get/by/username/"+username;
 
@@ -250,36 +252,5 @@ public class LogInForm_Screen extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
-    }
-
-    public static void disableSSLCertificateChecking() {
-        TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
-            public X509Certificate[] getAcceptedIssuers() {
-                return null;
-            }
-
-            @Override
-            public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-                // Not implemented
-            }
-
-            @Override
-            public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-                // Not implemented
-            }
-        } };
-
-        try {
-            SSLContext sc = SSLContext.getInstance("TLS");
-
-            sc.init(null, trustAllCerts, new java.security.SecureRandom());
-
-            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() { @Override public boolean verify(String hostname, SSLSession session) { return true; } });
-        } catch (KeyManagementException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
     }
 }

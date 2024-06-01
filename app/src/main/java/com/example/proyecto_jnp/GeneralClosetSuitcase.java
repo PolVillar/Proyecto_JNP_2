@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -40,7 +39,6 @@ import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,10 +55,7 @@ import javax.net.ssl.X509TrustManager;
 
 import model.Clothes;
 import model.ConnectionConfig;
-import model.Container;
 import model.RecyclerViewAdapter;
-import model.Suitcase;
-import model.User;
 import model.UserJwtInMemory;
 
 public class GeneralClosetSuitcase extends AppCompatActivity {
@@ -73,6 +68,7 @@ public class GeneralClosetSuitcase extends AppCompatActivity {
     private List<String> clothesDates;
     private Toolbar toolbar;
     private UserJwtInMemory userInMemory;
+    private SSLUtils sslUtils;
     private Long id;
     private Button add;
 
@@ -86,6 +82,7 @@ public class GeneralClosetSuitcase extends AppCompatActivity {
         clothesNames = new ArrayList<>();
         clothesDates = new ArrayList<>();
         userInMemory = UserJwtInMemory.getInstance();
+        sslUtils= new SSLUtils(this);
         add = findViewById(R.id.addClothe);
         Intent intent = getIntent();
         getSupportActionBar().setTitle(intent.getStringExtra("closetName"));
@@ -93,7 +90,7 @@ public class GeneralClosetSuitcase extends AppCompatActivity {
         String type = intent.getStringExtra("closetType");
         id = intent.getLongExtra("closetId",0);
         Log.d("Id:",id.toString());
-        disableSSLCertificateChecking();
+        sslUtils.disableSSLCertificateChecking();
         countSuitcasesQuery();
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -122,7 +119,7 @@ public class GeneralClosetSuitcase extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     private void countSuitcasesQuery() {
-        RequestQueue queue = Volley.newRequestQueue(this, new HurlStack(null, newSSLSocketFactory()));
+        RequestQueue queue = Volley.newRequestQueue(this,new HurlStack(null,sslUtils.newSSLSocketFactory()));
         String ownerUsername = userInMemory.getUser().getUsername();
         String url = ConnectionConfig.getIp(this) + "/clothes/find/all?containerId=" + id+"&owner%20username="+ownerUsername;
 
@@ -179,56 +176,6 @@ public class GeneralClosetSuitcase extends AppCompatActivity {
         };
 
         queue.add(jsonArrayRequest);
-    }
-    private SSLSocketFactory newSSLSocketFactory() {
-        try {
-            InputStream certificate = getResources().openRawResource(R.raw.marianaows2);
-            KeyStore keyStore = KeyStore.getInstance("BKS");
-            keyStore.load(certificate, "marianaoclosetpoljuan".toCharArray());
-
-            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-            keyManagerFactory.init(keyStore, "marianaoclosetpoljuan".toCharArray());
-
-            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-            trustManagerFactory.init(keyStore);
-            SSLContext sslContext = SSLContext.getInstance("TLS");
-            sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), null);
-            return sslContext.getSocketFactory();
-        } catch (NoSuchAlgorithmException | KeyStoreException | KeyManagementException |
-                 UnrecoverableKeyException | CertificateException | IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static void disableSSLCertificateChecking() {
-        TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
-            public X509Certificate[] getAcceptedIssuers() {
-                return null;
-            }
-
-            @Override
-            public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-                // Not implemented
-            }
-
-            @Override
-            public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-                // Not implemented
-            }
-        } };
-
-        try {
-            SSLContext sc = SSLContext.getInstance("TLS");
-            sc.init(null, trustAllCerts, new java.security.SecureRandom());
-            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
-                @Override public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            });
-        } catch (KeyManagementException | NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
     }
     @Override
     protected void onResume() {

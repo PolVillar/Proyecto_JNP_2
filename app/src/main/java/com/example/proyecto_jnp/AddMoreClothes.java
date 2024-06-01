@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -25,6 +26,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -60,6 +62,7 @@ public class AddMoreClothes extends AppCompatActivity {
     private Clothes clothes;
     private EnumerationMaps maps;
     private UserJwtInMemory userInMemory;
+    private SSLUtils sslUtils;
     private Container container;
     private Toolbar toolbar;
     ActivityResultLauncher<Intent> launcher;
@@ -69,17 +72,18 @@ public class AddMoreClothes extends AppCompatActivity {
         setContentView(R.layout.activity_add_more_clothes);
         charge();
         setAdapters();
+        sslUtils.disableSSLCertificateChecking();
         Intent intent = getIntent();
-        userInMemory = UserJwtInMemory.getInstance();
         type = intent.getStringExtra("containerType");
         id = intent.getLongExtra("containerId",0);
         name = intent.getStringExtra("containerName");
-        toolbar = findViewById(R.id.toolbar5);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(intent.getStringExtra(""));
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setBackCallback();
+    }
+
+    private void setBackCallback() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -88,6 +92,7 @@ public class AddMoreClothes extends AppCompatActivity {
         };
         this.getOnBackPressedDispatcher().addCallback(this, callback);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -104,16 +109,18 @@ public class AddMoreClothes extends AppCompatActivity {
         ivNewClothe = findViewById(R.id.ivNewClothe);
         spCategory = findViewById(R.id.spCategory);
         spCollection = findViewById(R.id.spCollection);
-
+        toolbar = findViewById(R.id.toolbar5);
         categories = new ArrayList<>(Arrays.asList(getString(R.string.category_jacket),
                 getString(R.string.category_shirt), getString(R.string.category_pants), getString(R.string.category_shoes),
                 getString(R.string.category_underwear), getString(R.string.category_complement)));
-
         collections = new ArrayList<>(Arrays.asList(getString(R.string.collection_winter),
                 getString(R.string.collection_spring), getString(R.string.collection_summer), getString(R.string.collection_autumn)));
         maps = new EnumerationMaps(this);
+        sslUtils= new SSLUtils(this);
+        userInMemory = UserJwtInMemory.getInstance();
         initializeLauncher();
     }
+
 
     private void setAdapters() {
         ArrayAdapter<String> collectionsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, collections);
@@ -125,20 +132,22 @@ public class AddMoreClothes extends AppCompatActivity {
 
     private void initializeLauncher(){
         launcher= registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            Intent intent= result.getData();
-            if(intent!=null){
-                Bundle bundle=intent.getExtras();
-                if(bundle!=null){
-                    Bitmap photoBitmap= (Bitmap) bundle.get("data");
-                    if(photoBitmap!=null) ivNewClothe.setImageBitmap(photoBitmap);
-                }
-                else{
-                    Uri photoUri = intent.getData();
-                    if(photoUri!=null) {
-                        try {
-                            ivNewClothe.setImageBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri));
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
+            if(result.getResultCode()== Activity.RESULT_OK){
+                Intent intent= result.getData();
+                if(intent!=null){
+                    Bundle bundle=intent.getExtras();
+                    if(bundle!=null){
+                        Bitmap photoBitmap= (Bitmap) bundle.get("data");
+                        if(photoBitmap!=null) ivNewClothe.setImageBitmap(photoBitmap);
+                    }
+                    else{
+                        Uri photoUri = intent.getData();
+                        if(photoUri!=null) {
+                            try {
+                                ivNewClothe.setImageBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri));
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     }
                 }
@@ -173,7 +182,7 @@ public class AddMoreClothes extends AppCompatActivity {
     }
 
     private void createClothe(User user,Clothes clothe){
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = Volley.newRequestQueue(this,new HurlStack(null,sslUtils.newSSLSocketFactory()));
         String url = ConnectionConfig.getIp(this) + "/clothes/save";
 
         JSONObject jsonBody = new JSONObject();
@@ -257,7 +266,7 @@ public class AddMoreClothes extends AppCompatActivity {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         Intent chooser = new Intent(Intent.ACTION_CHOOSER);
         chooser.putExtra(Intent.EXTRA_INTENT, galleryIntent);
-        chooser.putExtra(Intent.EXTRA_TITLE, "Select from:");
+        chooser.putExtra(Intent.EXTRA_TITLE, getString(R.string.select_image_title));
         Intent[] intentArray = { cameraIntent };
         chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
         launcher.launch(chooser);

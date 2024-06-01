@@ -10,15 +10,15 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
 public class CustomVolley {
-    public static RequestQueue newRequestQueue(Context context) {
+    /*public static RequestQueue newRequestQueue(Context context) {
         try {
-            TrustAllSSLSocketFactory trustAllFactory = new TrustAllSSLSocketFactory();
+            SSLUtils trustAllFactory = new SSLUtils();
             HurlStack stack = new HurlStack(null, trustAllFactory);
             return Volley.newRequestQueue(context, stack);
         } catch (NoSuchAlgorithmException | KeyManagementException e) {
             e.printStackTrace();
             return Volley.newRequestQueue(context);
         }
-    }
+    }*/
 }
 

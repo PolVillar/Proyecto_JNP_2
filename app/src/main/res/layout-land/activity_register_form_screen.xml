@@ -84,12 +84,12 @@
                 <EditText
                     android:id="@+id/email_et"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
+                    android:layout_weight="1"
                     android:ems="10"
                     android:hint="@string/email"
-                    android:inputType="text"
+                    android:inputType="text|textEmailAddress"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -101,26 +101,26 @@
                 <EditText
                     android:id="@+id/password_reg_et"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
                     android:layout_marginTop="5dp"
+                    android:layout_weight="1"
                     android:ems="10"
                     android:hint="@string/password"
-                    android:inputType="text"
+                    android:inputType="text|textPassword"
                     android:textSize="16sp" />
 
                 <EditText
                     android:id="@+id/conf_password_et"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
                     android:ems="10"
                     android:hint="@string/cPassword"
-                    android:inputType="text"
+                    android:inputType="text|textPassword"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -132,12 +132,12 @@
                 <EditText
                     android:id="@+id/phone_et"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
+                    android:layout_weight="1"
                     android:ems="10"
                     android:hint="@string/phone"
-                    android:inputType="text"
+                    android:inputType="phone"
                     android:textSize="16sp" />
                 <EditText
                     android:id="@+id/bday_et"

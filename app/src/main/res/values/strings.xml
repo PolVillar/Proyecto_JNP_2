@@ -12,6 +12,8 @@
     <string name="phone">Phone Number</string>
     <string name="address">Address</string>
     <string name="edit_text_empty">This field cannot be blank</string>
+    <string name="password_match">The passwords do not match</string>
+    <string name="invalid_mail">The email is not valid</string>
     <string name="forgot_password">Did you forget your password?</string>
     <string name="or">or</string>
     <string name="sign_google">Sign in with Google</string>

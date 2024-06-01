@@ -13,6 +13,7 @@ import java.security.SecureRandom;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Properties;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManagerFactory;
@@ -30,13 +31,16 @@ public class SSLUtils {
     }
 
     public SSLSocketFactory newSSLSocketFactory(){
-        try {
-            InputStream certificate =context.getResources().openRawResource(R.raw.marianaows);
+        try (InputStream certificate =context.getResources().openRawResource(R.raw.marianaows);
+            InputStream is= context.getAssets().open("config.properties")){
+            Properties props= new Properties();
+            props.load(is);
+            String keyStorePassword= props.getProperty("keystore_password");
             KeyStore keyStore = KeyStore.getInstance("BKS");
-            keyStore.load(certificate, "marianaoclosetpoljuan".toCharArray());
+            keyStore.load(certificate, keyStorePassword.toCharArray());
 
             KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-            keyManagerFactory.init(keyStore, "marianaoclosetpoljuan".toCharArray());
+            keyManagerFactory.init(keyStore, keyStorePassword.toCharArray());
 
             TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
             trustManagerFactory.init(keyStore);

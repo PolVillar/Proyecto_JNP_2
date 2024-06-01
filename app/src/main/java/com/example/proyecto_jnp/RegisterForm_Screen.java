@@ -14,6 +14,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -48,6 +49,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
@@ -81,7 +83,7 @@ public class RegisterForm_Screen extends AppCompatActivity {
         charge();
         sslUtils= new SSLUtils(this);
         sslUtils.disableSSLCertificateChecking();
-
+        sslUtils.newSSLSocketFactory();
 
         date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,11 +111,17 @@ public class RegisterForm_Screen extends AppCompatActivity {
                 if (contin){
                     if (!password.getText().toString().trim().equals(conf_password.getText().toString().trim())){
                         contin = false;
-                        conf_password.setError("The passwords do not match");
+                        conf_password.setError(getString(R.string.password_match));
                     }
                 }
                 if (contin){
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    if(!isValidEmail(email.getText().toString())){
+                        contin = false;
+                        email.setError(getString(R.string.invalid_mail));
+                    }
+                }
+                if (contin){
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
 
                     String usernameVal = String.valueOf(username.getText());
                     String passwordVal = password.getText().toString().trim();
@@ -133,6 +141,9 @@ public class RegisterForm_Screen extends AppCompatActivity {
                 }
             }
         });
+    }
+    private boolean isValidEmail(String target) {
+        return (Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 
 

@@ -41,7 +41,7 @@
                 android:layout_marginTop="10dp"
                 android:ems="10"
                 android:hint="@string/password"
-                android:inputType="text" />
+                android:inputType="text|textPassword" />
 
             <Button
                 android:id="@+id/login_bt"

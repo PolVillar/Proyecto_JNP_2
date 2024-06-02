@@ -10,8 +10,10 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.Spinner;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -40,7 +42,7 @@ import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,13 +59,10 @@ import javax.net.ssl.X509TrustManager;
 
 import model.Clothes;
 import model.ConnectionConfig;
-import model.Container;
 import model.RecyclerViewAdapter;
-import model.Suitcase;
-import model.User;
 import model.UserJwtInMemory;
 
-public class GeneralClosetSuitcase extends AppCompatActivity {
+public class GeneralClosetSuitcase extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
@@ -71,10 +70,12 @@ public class GeneralClosetSuitcase extends AppCompatActivity {
     private List<Drawable> clothesImgs;
     private List<String> clothesNames;
     private List<String> clothesDates;
+    public List<String> categories,collections;
     private Toolbar toolbar;
     private UserJwtInMemory userInMemory;
     private Long id;
     private Button add;
+    private Spinner collectionFilter, categoryFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +83,10 @@ public class GeneralClosetSuitcase extends AppCompatActivity {
         setContentView(R.layout.activity_suitcase);
         toolbar = findViewById(R.id.toolbar4);
         setSupportActionBar(toolbar);
+        collectionFilter= findViewById(R.id.spinnerColl);
+        categoryFilter=findViewById(R.id.spinnerCat);
+        charge();
+        setAdapters();
         clothesImgs = new ArrayList<>();
         clothesNames = new ArrayList<>();
         clothesDates = new ArrayList<>();
@@ -94,12 +99,15 @@ public class GeneralClosetSuitcase extends AppCompatActivity {
         id = intent.getLongExtra("closetId",0);
         Log.d("Id:",id.toString());
         disableSSLCertificateChecking();
-        countSuitcasesQuery();
+        countSuitcasesQuery(collectionFilter.getSelectedItem().toString(),categoryFilter.getSelectedItem().toString());
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        collectionFilter.setOnItemSelectedListener(this);
+        categoryFilter.setOnItemSelectedListener(this);
+
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,6 +119,14 @@ public class GeneralClosetSuitcase extends AppCompatActivity {
             }
         });
 
+
+    }
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        countSuitcasesQuery(collectionFilter.getSelectedItem().toString(), categoryFilter.getSelectedItem().toString());
+    }
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -121,10 +137,22 @@ public class GeneralClosetSuitcase extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    private void countSuitcasesQuery() {
+
+    private void setAdapters() {
+        ArrayAdapter<String> collectionsAdapter =
+                new ArrayAdapter<>(this,
+                        android.R.layout.simple_list_item_1, collections);
+        collectionFilter.setAdapter(collectionsAdapter);
+        ArrayAdapter<String> categoriesAdapter =
+                new ArrayAdapter<>(this,
+                        android.R.layout.simple_list_item_1, categories);
+        categoryFilter.setAdapter(categoriesAdapter);
+    }
+
+    private void countSuitcasesQuery(String collection, String category) {
         RequestQueue queue = Volley.newRequestQueue(this, new HurlStack(null, newSSLSocketFactory()));
         String ownerUsername = userInMemory.getUser().getUsername();
-        String url = ConnectionConfig.getIp(this) + "/clothes/find/all?containerId=" + id+"&owner%20username="+ownerUsername;
+        String url = ConnectionConfig.getIp(this) + "/clothes/find/all?containerId=" + id+"&owner%20username="+ownerUsername+"&collection="+collection.toUpperCase()+"&category="+category.toUpperCase();
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -150,8 +178,7 @@ public class GeneralClosetSuitcase extends AppCompatActivity {
                                 clothesNames.add(name);
                                 String lastUse = responseObj.getString("lastUse");
                                 clothesDates.add(lastUse);
-                                Log.d("estoy aqui:",name);
-                                // Further code to handle the closets
+
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -233,7 +260,14 @@ public class GeneralClosetSuitcase extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        countSuitcasesQuery();
+        countSuitcasesQuery(collectionFilter.getSelectedItem().toString(),categoryFilter.getSelectedItem().toString());
+    }
+    private  void charge(){
+        categories= new ArrayList<>(Arrays.asList(getString(R.string.category_jacket),
+                getString(R.string.category_shirt),getString(R.string.category_pants),getString(R.string.category_shoes),
+                getString(R.string.category_underwear),getString(R.string.category_complement)));
+        collections= new ArrayList<>(Arrays.asList(getString(R.string.collection_winter),
+                getString(R.string.collection_spring),getString(R.string.collection_summer),getString(R.string.collection_autumn)));
     }
 
 }

@@ -32,39 +32,23 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.KeyManagementException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
-import javax.net.ssl.X509TrustManager;
-
 import model.Clothes;
 import model.ConnectionConfig;
+import model.ClothesRecyclerViewAdapter;
 import model.RecyclerViewAdapter;
 import model.UserJwtInMemory;
 
 public class GeneralClosetSuitcase extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     private RecyclerView recyclerView;
+    private ClothesRecyclerViewAdapter adapter;
+    private List<Clothes> clothesList;
     private RecyclerViewAdapter adapter;
     private List<Clothes> itemList;
     private List<Drawable> clothesImgs;
@@ -73,6 +57,7 @@ public class GeneralClosetSuitcase extends AppCompatActivity implements AdapterV
     public List<String> categories,collections;
     private Toolbar toolbar;
     private UserJwtInMemory userInMemory;
+    private SSLUtils sslUtils;
     private Long id;
     private Button add;
     private Spinner collectionFilter, categoryFilter;
@@ -90,7 +75,9 @@ public class GeneralClosetSuitcase extends AppCompatActivity implements AdapterV
         clothesImgs = new ArrayList<>();
         clothesNames = new ArrayList<>();
         clothesDates = new ArrayList<>();
+        clothesList = new ArrayList<>();
         userInMemory = UserJwtInMemory.getInstance();
+        sslUtils= new SSLUtils(this);
         add = findViewById(R.id.addClothe);
         Intent intent = getIntent();
         getSupportActionBar().setTitle(intent.getStringExtra("closetName"));
@@ -100,6 +87,8 @@ public class GeneralClosetSuitcase extends AppCompatActivity implements AdapterV
         Log.d("Id:",id.toString());
         disableSSLCertificateChecking();
         countSuitcasesQuery(collectionFilter.getSelectedItem().toString(),categoryFilter.getSelectedItem().toString());
+        sslUtils.disableSSLCertificateChecking();
+        countSuitcasesQuery();
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         if (getSupportActionBar() != null) {
@@ -161,30 +150,31 @@ public class GeneralClosetSuitcase extends AppCompatActivity implements AdapterV
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        clothesImgs.clear();
-                        clothesNames.clear();
-                        clothesDates.clear();
-                        for (int i=0;i<response.length();i++){
+                        clothesList.clear();
 
+                        for (int i=0;i<response.length();i++){
+                            Clothes clothes= new Clothes();
                             try {
                                 JSONObject responseObj = response.getJSONObject(i);
 
                                 String pic = responseObj.getString("picture");
                                 byte[] byteArray = Base64.decode(pic, Base64.DEFAULT);
-                                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-                                Drawable imgDrawable = new BitmapDrawable(getResources(), bitmap);
-                                clothesImgs.add(imgDrawable);
-                                String name = responseObj.getString("name");
-                                clothesNames.add(name);
+                                clothes.setPicture(byteArray);
+                                String name=responseObj.getString("name");
+                                clothes.setName(name);
                                 String lastUse = responseObj.getString("lastUse");
                                 clothesDates.add(lastUse);
 
+                                clothes.setLastUse(ClothesRecyclerViewAdapter.sdf.parse(lastUse));
+                                Log.d("estoy aqui:",name);
+                                clothesList.add(clothes);
+                                // Further code to handle the closets
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
                         }
-                        adapter = new RecyclerViewAdapter(GeneralClosetSuitcase.this,clothesImgs,clothesNames,clothesDates);
+                        adapter = new ClothesRecyclerViewAdapter(GeneralClosetSuitcase.this,clothesList);
                         recyclerView.setAdapter(adapter);
 
                     }

@@ -30,6 +30,9 @@ public class NewOutfitActivity extends AppCompatActivity {
             Clothes c = clothes.get(pos);
             if(!selectedClothes.contains(c)) selectedClothes.add(c);
         });
+        selectedClothesAdapter.setOnItemClickListener(pos -> {
+            selectedClothes.remove(pos);
+        });
     }
     private void charge(){
         rvSelectedClothes=findViewById(R.id.rvSelectedClothes);

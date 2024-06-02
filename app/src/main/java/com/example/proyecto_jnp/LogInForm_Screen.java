@@ -73,7 +73,7 @@ public class LogInForm_Screen extends AppCompatActivity {
         setContentView(R.layout.activity_log_in_form_screen);
         charge();
         userInMemory = UserJwtInMemory.getInstance();
-        sslUtils= new SSLUtils(this);
+        //sslUtils= new SSLUtils(this);
         //sslUtils.disableSSLCertificateChecking();
         disableSSLCertificateChecking();
 
@@ -165,7 +165,7 @@ public class LogInForm_Screen extends AppCompatActivity {
     }
 
     private void authenticateToken(final String username, final String password){
-        RequestQueue queue = Volley.newRequestQueue(this,new HurlStack(null,newSSLSocketFactory()));
+        RequestQueue queue = Volley.newRequestQueue(this/*,new HurlStack(null,newSSLSocketFactory())*/);
         String url = ConnectionConfig.getIp(this)+"/auth/login";
         JSONObject jsonBody = new JSONObject();
         try {

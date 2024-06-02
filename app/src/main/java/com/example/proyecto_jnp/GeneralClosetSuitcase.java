@@ -1,9 +1,7 @@
 package com.example.proyecto_jnp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Base64;
@@ -15,9 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
-import androidx.appcompat.widget.Toolbar;
-
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,16 +29,36 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
 
 import model.Clothes;
-import model.ConnectionConfig;
 import model.ClothesRecyclerViewAdapter;
-import model.RecyclerViewAdapter;
+import model.ConnectionConfig;
 import model.UserJwtInMemory;
 
 public class GeneralClosetSuitcase extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
@@ -49,7 +66,6 @@ public class GeneralClosetSuitcase extends AppCompatActivity implements AdapterV
     private RecyclerView recyclerView;
     private ClothesRecyclerViewAdapter adapter;
     private List<Clothes> clothesList;
-    private RecyclerViewAdapter adapter;
     private List<Clothes> itemList;
     private List<Drawable> clothesImgs;
     private List<String> clothesNames;
@@ -87,8 +103,7 @@ public class GeneralClosetSuitcase extends AppCompatActivity implements AdapterV
         Log.d("Id:",id.toString());
         disableSSLCertificateChecking();
         countSuitcasesQuery(collectionFilter.getSelectedItem().toString(),categoryFilter.getSelectedItem().toString());
-        sslUtils.disableSSLCertificateChecking();
-        countSuitcasesQuery();
+        //countSuitcasesQuery();
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         if (getSupportActionBar() != null) {
@@ -197,14 +212,18 @@ public class GeneralClosetSuitcase extends AppCompatActivity implements AdapterV
 
         queue.add(jsonArrayRequest);
     }
-    private SSLSocketFactory newSSLSocketFactory() {
-        try {
-            InputStream certificate = getResources().openRawResource(R.raw.marianaows2);
+    public SSLSocketFactory newSSLSocketFactory(){
+        try (InputStream certificate =getResources().openRawResource(R.raw.marianaows);
+             InputStream is= getAssets().open("config.properties")){
+            Properties props= new Properties();
+            props.load(is);
+            String keyStorePassword= props.getProperty("keystore_password");
+            Log.i("password",keyStorePassword);
             KeyStore keyStore = KeyStore.getInstance("BKS");
-            keyStore.load(certificate, "marianaoclosetpoljuan".toCharArray());
+            keyStore.load(certificate, keyStorePassword.toCharArray());
 
             KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-            keyManagerFactory.init(keyStore, "marianaoclosetpoljuan".toCharArray());
+            keyManagerFactory.init(keyStore, keyStorePassword.toCharArray());
 
             TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
             trustManagerFactory.init(keyStore);
@@ -216,37 +235,34 @@ public class GeneralClosetSuitcase extends AppCompatActivity implements AdapterV
             throw new RuntimeException(e);
         }
     }
-
-    public static void disableSSLCertificateChecking() {
+    public void disableSSLCertificateChecking() {
         TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
-            public X509Certificate[] getAcceptedIssuers() {
+            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
                 return null;
             }
 
             @Override
-            public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+            public void checkClientTrusted(java.security.cert.X509Certificate[] arg0, String arg1) {
                 // Not implemented
             }
 
             @Override
-            public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+            public void checkServerTrusted(X509Certificate[] arg0, String arg1) {
                 // Not implemented
             }
-        } };
+        }};
 
         try {
             SSLContext sc = SSLContext.getInstance("TLS");
-            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            sc.init(null, trustAllCerts, new SecureRandom());
             HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
-                @Override public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            });
+            HttpsURLConnection.setDefaultHostnameVerifier((hostname, session) -> true);
+            Log.i("holassl","ey");
         } catch (KeyManagementException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();

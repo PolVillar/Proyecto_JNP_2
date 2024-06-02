@@ -19,6 +19,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,11 +35,13 @@ import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -71,7 +74,8 @@ public class LogInForm_Screen extends AppCompatActivity {
         charge();
         userInMemory = UserJwtInMemory.getInstance();
         sslUtils= new SSLUtils(this);
-        sslUtils.disableSSLCertificateChecking();
+        //sslUtils.disableSSLCertificateChecking();
+        disableSSLCertificateChecking();
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +88,8 @@ public class LogInForm_Screen extends AppCompatActivity {
                     check=false;
                 }
                 if (check) {
+                    Log.i("User",username.getText().toString().trim());
+                    Log.i("Pass",password.getText().toString().trim());
                     authenticateToken(username.getText().toString().trim(), password.getText().toString().trim());
                 }
                 else{
@@ -107,27 +113,59 @@ public class LogInForm_Screen extends AppCompatActivity {
         cancel = findViewById(R.id.cancel_bt);
     }
 
-    private SSLSocketFactory newSSLSocketFactory(){
-        TrustManagerFactory tmf;
+    public SSLSocketFactory newSSLSocketFactory(){
+        try (InputStream certificate =getResources().openRawResource(R.raw.marianaows);
+             InputStream is= getAssets().open("config.properties")){
+            Properties props= new Properties();
+            props.load(is);
+            String keyStorePassword= props.getProperty("keystore_password");
+            Log.i("password",keyStorePassword);
+            KeyStore keyStore = KeyStore.getInstance("BKS");
+            keyStore.load(certificate, keyStorePassword.toCharArray());
+
+            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            keyManagerFactory.init(keyStore, keyStorePassword.toCharArray());
+
+            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            trustManagerFactory.init(keyStore);
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), null);
+            return sslContext.getSocketFactory();
+        } catch (NoSuchAlgorithmException | KeyStoreException | KeyManagementException |
+                 UnrecoverableKeyException | CertificateException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void disableSSLCertificateChecking() {
+        TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+            public X509Certificate[] getAcceptedIssuers() {
+                return null;
+            }
+
+            @Override
+            public void checkClientTrusted(X509Certificate[] arg0, String arg1) {
+                // Not implemented
+            }
+
+            @Override
+            public void checkServerTrusted(X509Certificate[] arg0, String arg1) {
+                // Not implemented
+            }
+        }};
 
         try {
-            tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-            tmf.init((KeyStore) null);
-
-            SSLContext context = SSLContext.getInstance("TLS");
-            context.init(null, tmf.getTrustManagers(), null);
-            return context.getSocketFactory();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        } catch (KeyStoreException e) {
-            throw new RuntimeException(e);
-        } catch (KeyManagementException e) {
-            throw new RuntimeException(e);
+            SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, trustAllCerts, new SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+            HttpsURLConnection.setDefaultHostnameVerifier((hostname, session) -> true);
+            Log.i("holassl","ey");
+        } catch (KeyManagementException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
     }
 
     private void authenticateToken(final String username, final String password){
-        RequestQueue queue = Volley.newRequestQueue(this,new HurlStack(null,sslUtils.newSSLSocketFactory()));
+        RequestQueue queue = Volley.newRequestQueue(this,new HurlStack(null,newSSLSocketFactory()));
         String url = ConnectionConfig.getIp(this)+"/auth/login";
         JSONObject jsonBody = new JSONObject();
         try {

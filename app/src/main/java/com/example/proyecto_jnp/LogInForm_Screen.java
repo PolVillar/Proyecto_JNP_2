@@ -253,4 +253,5 @@ public class LogInForm_Screen extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
 }

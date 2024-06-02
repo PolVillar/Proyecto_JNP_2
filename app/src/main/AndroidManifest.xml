@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Proyecto_JNP"
         tools:targetApi="31">
         <activity
+            android:name=".InfoClothe"
+            android:exported="false" />
+        <activity
             android:name=".NewOutfitActivity"
             android:exported="false" />
         <activity

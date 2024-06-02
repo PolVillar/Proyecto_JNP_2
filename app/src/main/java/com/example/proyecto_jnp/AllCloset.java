@@ -142,7 +142,7 @@ public class AllCloset extends AppCompatActivity {
                         closetListImgs.add(findViewById(R.id.ivCloset5));
                         closetListImgs.add(findViewById(R.id.ivCloset6));
                         if (countClosets<MAX_CLOSETS){
-                            ImageView closetLast =closetListImgs.get(countClosets+1);
+                            ImageView closetLast =closetListImgs.get(countClosets);
                             closetLast.setVisibility(View.VISIBLE);
                             closetLast.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -206,8 +206,10 @@ public class AllCloset extends AppCompatActivity {
                 String name = input.getText().toString().trim();
                 if (type.equals(Container.Type.CLOSET)){
                     createClosets(userInMemory.getUser(),name);
+                    recreate();
                 }else{
                     createSuitcases(userInMemory.getUser(),name);
+                    recreate();
                 }
 
             }

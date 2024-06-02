@@ -10,7 +10,10 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -30,6 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,18 +41,26 @@ import java.util.Map;
 import model.Clothes;
 import model.ConnectionConfig;
 import model.ClothesRecyclerViewAdapter;
+import model.RecyclerViewAdapter;
 import model.UserJwtInMemory;
 
-public class GeneralClosetSuitcase extends AppCompatActivity {
+public class GeneralClosetSuitcase extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     private RecyclerView recyclerView;
     private ClothesRecyclerViewAdapter adapter;
     private List<Clothes> clothesList;
+    private RecyclerViewAdapter adapter;
+    private List<Clothes> itemList;
+    private List<Drawable> clothesImgs;
+    private List<String> clothesNames;
+    private List<String> clothesDates;
+    public List<String> categories,collections;
     private Toolbar toolbar;
     private UserJwtInMemory userInMemory;
     private SSLUtils sslUtils;
     private Long id;
     private Button add;
+    private Spinner collectionFilter, categoryFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +68,13 @@ public class GeneralClosetSuitcase extends AppCompatActivity {
         setContentView(R.layout.activity_suitcase);
         toolbar = findViewById(R.id.toolbar4);
         setSupportActionBar(toolbar);
+        collectionFilter= findViewById(R.id.spinnerColl);
+        categoryFilter=findViewById(R.id.spinnerCat);
+        charge();
+        setAdapters();
+        clothesImgs = new ArrayList<>();
+        clothesNames = new ArrayList<>();
+        clothesDates = new ArrayList<>();
         clothesList = new ArrayList<>();
         userInMemory = UserJwtInMemory.getInstance();
         sslUtils= new SSLUtils(this);
@@ -66,6 +85,8 @@ public class GeneralClosetSuitcase extends AppCompatActivity {
         String type = intent.getStringExtra("closetType");
         id = intent.getLongExtra("closetId",0);
         Log.d("Id:",id.toString());
+        disableSSLCertificateChecking();
+        countSuitcasesQuery(collectionFilter.getSelectedItem().toString(),categoryFilter.getSelectedItem().toString());
         sslUtils.disableSSLCertificateChecking();
         countSuitcasesQuery();
         recyclerView = findViewById(R.id.recyclerView);
@@ -73,6 +94,9 @@ public class GeneralClosetSuitcase extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        collectionFilter.setOnItemSelectedListener(this);
+        categoryFilter.setOnItemSelectedListener(this);
+
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,6 +108,14 @@ public class GeneralClosetSuitcase extends AppCompatActivity {
             }
         });
 
+
+    }
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        countSuitcasesQuery(collectionFilter.getSelectedItem().toString(), categoryFilter.getSelectedItem().toString());
+    }
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -94,10 +126,22 @@ public class GeneralClosetSuitcase extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    private void countSuitcasesQuery() {
-        RequestQueue queue = Volley.newRequestQueue(this,new HurlStack(null,sslUtils.newSSLSocketFactory()));
+
+    private void setAdapters() {
+        ArrayAdapter<String> collectionsAdapter =
+                new ArrayAdapter<>(this,
+                        android.R.layout.simple_list_item_1, collections);
+        collectionFilter.setAdapter(collectionsAdapter);
+        ArrayAdapter<String> categoriesAdapter =
+                new ArrayAdapter<>(this,
+                        android.R.layout.simple_list_item_1, categories);
+        categoryFilter.setAdapter(categoriesAdapter);
+    }
+
+    private void countSuitcasesQuery(String collection, String category) {
+        RequestQueue queue = Volley.newRequestQueue(this, new HurlStack(null, newSSLSocketFactory()));
         String ownerUsername = userInMemory.getUser().getUsername();
-        String url = ConnectionConfig.getIp(this) + "/clothes/find/all?containerId=" + id+"&owner%20username="+ownerUsername;
+        String url = ConnectionConfig.getIp(this) + "/clothes/find/all?containerId=" + id+"&owner%20username="+ownerUsername+"&collection="+collection.toUpperCase()+"&category="+category.toUpperCase();
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -119,6 +163,8 @@ public class GeneralClosetSuitcase extends AppCompatActivity {
                                 String name=responseObj.getString("name");
                                 clothes.setName(name);
                                 String lastUse = responseObj.getString("lastUse");
+                                clothesDates.add(lastUse);
+
                                 clothes.setLastUse(ClothesRecyclerViewAdapter.sdf.parse(lastUse));
                                 Log.d("estoy aqui:",name);
                                 clothesList.add(clothes);
@@ -151,10 +197,67 @@ public class GeneralClosetSuitcase extends AppCompatActivity {
 
         queue.add(jsonArrayRequest);
     }
+    private SSLSocketFactory newSSLSocketFactory() {
+        try {
+            InputStream certificate = getResources().openRawResource(R.raw.marianaows2);
+            KeyStore keyStore = KeyStore.getInstance("BKS");
+            keyStore.load(certificate, "marianaoclosetpoljuan".toCharArray());
+
+            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            keyManagerFactory.init(keyStore, "marianaoclosetpoljuan".toCharArray());
+
+            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            trustManagerFactory.init(keyStore);
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), null);
+            return sslContext.getSocketFactory();
+        } catch (NoSuchAlgorithmException | KeyStoreException | KeyManagementException |
+                 UnrecoverableKeyException | CertificateException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void disableSSLCertificateChecking() {
+        TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+            public X509Certificate[] getAcceptedIssuers() {
+                return null;
+            }
+
+            @Override
+            public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+                // Not implemented
+            }
+
+            @Override
+            public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+                // Not implemented
+            }
+        } };
+
+        try {
+            SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+                @Override public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            });
+        } catch (KeyManagementException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     protected void onResume() {
         super.onResume();
-        countSuitcasesQuery();
+        countSuitcasesQuery(collectionFilter.getSelectedItem().toString(),categoryFilter.getSelectedItem().toString());
+    }
+    private  void charge(){
+        categories= new ArrayList<>(Arrays.asList(getString(R.string.category_jacket),
+                getString(R.string.category_shirt),getString(R.string.category_pants),getString(R.string.category_shoes),
+                getString(R.string.category_underwear),getString(R.string.category_complement)));
+        collections= new ArrayList<>(Arrays.asList(getString(R.string.collection_winter),
+                getString(R.string.collection_spring),getString(R.string.collection_summer),getString(R.string.collection_autumn)));
     }
 
 }

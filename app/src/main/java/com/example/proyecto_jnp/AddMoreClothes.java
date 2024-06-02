@@ -103,30 +103,31 @@ public class AddMoreClothes extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     private void charge() {
-        etName = findViewById(R.id.etName);
-        etColor = findViewById(R.id.etColor);
-        etSize = findViewById(R.id.etSize);
-        ivNewClothe = findViewById(R.id.ivNewClothe);
-        spCategory = findViewById(R.id.spCategory);
-        spCollection = findViewById(R.id.spCollection);
-        toolbar = findViewById(R.id.toolbar5);
-        categories = new ArrayList<>(Arrays.asList(getString(R.string.category_jacket),
-                getString(R.string.category_shirt), getString(R.string.category_pants), getString(R.string.category_shoes),
-                getString(R.string.category_underwear), getString(R.string.category_complement)));
-        collections = new ArrayList<>(Arrays.asList(getString(R.string.collection_winter),
-                getString(R.string.collection_spring), getString(R.string.collection_summer), getString(R.string.collection_autumn)));
-        maps = new EnumerationMaps(this);
-        sslUtils= new SSLUtils(this);
-        userInMemory = UserJwtInMemory.getInstance();
+        etName = findViewById(R.id.etNameEdit);
+        etColor = findViewById(R.id.etColorEdit);
+        etSize = findViewById(R.id.etSizeEdit);
+        ivNewClothe = findViewById(R.id.ivClotheEdit);
+        spCategory = findViewById(R.id.spCategoryEdit);
+        spCollection = findViewById(R.id.spCollectionEdit);
+
+        categories= new ArrayList<>(Arrays.asList(getString(R.string.category_jacket),
+                getString(R.string.category_shirt),getString(R.string.category_pants),getString(R.string.category_shoes),
+                getString(R.string.category_underwear),getString(R.string.category_complement)));
+        collections= new ArrayList<>(Arrays.asList(getString(R.string.collection_winter),
+                getString(R.string.collection_spring),getString(R.string.collection_summer),getString(R.string.collection_autumn)));
+        maps= new EnumerationMaps(this);
         initializeLauncher();
     }
 
 
     private void setAdapters() {
-        ArrayAdapter<String> collectionsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, collections);
+        ArrayAdapter<String> collectionsAdapter =
+                new ArrayAdapter<>(this,
+                        android.R.layout.simple_list_item_1, collections);
         spCollection.setAdapter(collectionsAdapter);
-
-        ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, categories);
+        ArrayAdapter<String> categoriesAdapter =
+                new ArrayAdapter<>(this,
+                        android.R.layout.simple_list_item_1, categories);
         spCategory.setAdapter(categoriesAdapter);
     }
 
@@ -172,10 +173,10 @@ public class AddMoreClothes extends AppCompatActivity {
             String selectedCategory = spCategory.getSelectedItem().toString();
 
             // Crea el objeto Clothes con las selecciones correctas
-            clothes = new Clothes(null, etName.getText().toString(),
-                    etColor.getText().toString(), etSize.getText().toString(),
-                    byteArray, selectedCollection.toUpperCase(),
-                    selectedCategory.toUpperCase(), null, null);
+            clothes= new Clothes(null,etName.getText().toString(),
+                    etColor.getText().toString(),etSize.getText().toString(),
+                    byteArray, maps.getCollections().get(spCollection.getSelectedItem().toString()),
+                    maps.getCategories().get(spCategory.getSelectedItem().toString()),null ,null);
 
             createClothe(userInMemory.getUser(), clothes);
         }
@@ -217,8 +218,6 @@ public class AddMoreClothes extends AppCompatActivity {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             String formattedDate = dateFormat.format(date);
             jsonBody.put("lastUse", formattedDate);
-
-            Log.d("JSONBody", clothe.getCollection()+clothe.getCategory());
 
         } catch (JSONException e) {
             e.printStackTrace();

@@ -217,6 +217,7 @@ public class RegisterForm_Screen extends AppCompatActivity {
                             userInMemory.setToken(jwtJSON);
 
                             createClosets(userInMemory.getUser());
+                            createSuitcases(userInMemory.getUser());
 
                             Intent intent = new Intent(RegisterForm_Screen.this, MainMenu_Screen.class);
                             startActivity(intent);
@@ -253,6 +254,63 @@ public class RegisterForm_Screen extends AppCompatActivity {
             jsonBody.put("id", 0);
             jsonBody.put("name", "Closet nº1");
             jsonBody.put("type", Container.Type.CLOSET);
+
+            JSONObject ownerObj = new JSONObject();
+            ownerObj.put("username", user.getUsername());
+            ownerObj.put("password", user.getPassword());
+            ownerObj.put("mail", user.getMail());
+            ownerObj.put("phone", user.getPhone());
+            ownerObj.put("fullName", user.getFullName());
+            ownerObj.put("birthDate", user.getBirthDate());
+            ownerObj.put("profilePicture", null);
+
+            jsonBody.put("owner", ownerObj);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("CreateClosetsResponse", "Closet created successfully: " + response.toString());
+                        try {
+                            // Process the response if needed
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error.networkResponse != null) {
+                            Log.e("CreateClosetsError", "Error: " + new String(error.networkResponse.data));
+                        } else {
+                            Log.e("CreateClosetsError", "Error: " + error.getMessage());
+                        }
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "Bearer " + userInMemory.getToken());
+                return headers;
+            }
+        };
+
+        queue.add(jsonObjectRequest);
+    }
+    private void createSuitcases(User user){
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = ConnectionConfig.getIp(this) + "/containers/save";
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("id", 0);
+            jsonBody.put("name", "Suitcase nº1");
+            jsonBody.put("type", Container.Type.SUITCASE);
 
             JSONObject ownerObj = new JSONObject();
             ownerObj.put("username", user.getUsername());

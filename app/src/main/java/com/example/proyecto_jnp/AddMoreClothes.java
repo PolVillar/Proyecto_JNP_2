@@ -11,21 +11,43 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import androidx.appcompat.widget.Toolbar;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import model.Clothes;
+import model.ConnectionConfig;
 import model.Container;
 import model.EnumerationMaps;
+import model.User;
+import model.UserJwtInMemory;
 
 public class AddMoreClothes extends AppCompatActivity {
 
@@ -33,13 +55,31 @@ public class AddMoreClothes extends AppCompatActivity {
     private EditText etName,etColor,etSize;
     private ImageView ivNewClothe;
     private Spinner spCategory,spCollection;
+    private String type,name;
+    private Long id;
+    private Clothes clothes;
     private EnumerationMaps maps;
+    private UserJwtInMemory userInMemory;
     private Container container;
+    private Toolbar toolbar;
     ActivityResultLauncher<Intent> launcher;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_more_clothes);
+        charge();
+        setAdapters();
+        Intent intent = getIntent();
+        userInMemory = UserJwtInMemory.getInstance();
+        type = intent.getStringExtra("containerType");
+        id = intent.getLongExtra("containerId",0);
+        name = intent.getStringExtra("containerName");
+        toolbar = findViewById(R.id.toolbar5);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(intent.getStringExtra(""));
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -47,34 +87,42 @@ public class AddMoreClothes extends AppCompatActivity {
             }
         };
         this.getOnBackPressedDispatcher().addCallback(this, callback);
-        charge();
-        setAdapters();
     }
-    private void charge(){
-        etName=findViewById(R.id.etName);
-        etColor=findViewById(R.id.etColor);
-        etSize=findViewById(R.id.etSize);
-        ivNewClothe=findViewById(R.id.ivNewClothe);
-        spCategory=findViewById(R.id.spCategory);
-        spCollection=findViewById(R.id.spCollection);
-        categories= new ArrayList<>(Arrays.asList(getString(R.string.category_jacket),
-                getString(R.string.category_shirt),getString(R.string.category_pants),getString(R.string.category_shoes),
-                getString(R.string.category_underwear),getString(R.string.category_complement)));
-        collections= new ArrayList<>(Arrays.asList(getString(R.string.collection_winter),
-                getString(R.string.collection_spring),getString(R.string.collection_summer),getString(R.string.collection_autumn)));
-        maps= new EnumerationMaps(this);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            // Maneja el evento de clic en el botón de retroceso
+            finish(); // Cierra la actividad actual y regresa a la anterior
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    private void charge() {
+        etName = findViewById(R.id.etName);
+        etColor = findViewById(R.id.etColor);
+        etSize = findViewById(R.id.etSize);
+        ivNewClothe = findViewById(R.id.ivNewClothe);
+        spCategory = findViewById(R.id.spCategory);
+        spCollection = findViewById(R.id.spCollection);
+
+        categories = new ArrayList<>(Arrays.asList(getString(R.string.category_jacket),
+                getString(R.string.category_shirt), getString(R.string.category_pants), getString(R.string.category_shoes),
+                getString(R.string.category_underwear), getString(R.string.category_complement)));
+
+        collections = new ArrayList<>(Arrays.asList(getString(R.string.collection_winter),
+                getString(R.string.collection_spring), getString(R.string.collection_summer), getString(R.string.collection_autumn)));
+        maps = new EnumerationMaps(this);
         initializeLauncher();
     }
-    private void setAdapters(){
-        ArrayAdapter<String> collectionsAdapter =
-                new ArrayAdapter<>(this,
-                        android.R.layout.simple_list_item_1, collections);
+
+    private void setAdapters() {
+        ArrayAdapter<String> collectionsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, collections);
         spCollection.setAdapter(collectionsAdapter);
-        ArrayAdapter<String> categoriesAdapter =
-                new ArrayAdapter<>(this,
-                        android.R.layout.simple_list_item_1, categories);
+
+        ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, categories);
         spCategory.setAdapter(categoriesAdapter);
     }
+
     private void initializeLauncher(){
         launcher= registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             Intent intent= result.getData();
@@ -97,19 +145,111 @@ public class AddMoreClothes extends AppCompatActivity {
             }
         });
     }
-    public void onClickCreate(View view){
-        if(etName.getText().toString().isEmpty()) etName.setError(getString(R.string.edit_text_empty));
-        else{
+    public void onClickCreate(View view) {
+        if (etName.getText().toString().isEmpty()) {
+            etName.setError(getString(R.string.edit_text_empty));
+        } else if (ivNewClothe.getDrawable() == null) {
+            return;
+        } else if (!(ivNewClothe.getDrawable() instanceof BitmapDrawable)) {
+            return;
+        } else {
             Bitmap bitmap = ((BitmapDrawable) ivNewClothe.getDrawable()).getBitmap();
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] byteArray = stream.toByteArray();
-            Clothes clothes= new Clothes(null,etName.getText().toString(),
-                    etColor.getText().toString(),etSize.getText().toString(),
-                    byteArray, maps.getCollections().get(spCollection.getSelectedItem().toString()),
-                    maps.getCategories().get(spCategory.getSelectedItem().toString()),null ,null);
+
+            // Obtén las selecciones actuales de los Spinners
+            String selectedCollection = spCollection.getSelectedItem().toString();
+            String selectedCategory = spCategory.getSelectedItem().toString();
+
+            // Crea el objeto Clothes con las selecciones correctas
+            clothes = new Clothes(null, etName.getText().toString(),
+                    etColor.getText().toString(), etSize.getText().toString(),
+                    byteArray, selectedCollection.toUpperCase(),
+                    selectedCategory.toUpperCase(), null, null);
+
+            createClothe(userInMemory.getUser(), clothes);
         }
     }
+
+    private void createClothe(User user,Clothes clothe){
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = ConnectionConfig.getIp(this) + "/clothes/save";
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("id", 0);
+            jsonBody.put("name", clothe.getName());
+            jsonBody.put("color", clothe.getColor());
+            jsonBody.put("size", clothe.getSize());
+            // Si picture es un array, puedes pasar un JSONArray
+            byte[] byteArray = clothe.getPicture();
+            String base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT);
+            jsonBody.put("picture", base64Image);
+            jsonBody.put("collection", clothe.getCollection());
+            jsonBody.put("category", clothe.getCategory());
+            // Agregar el objeto Container
+            JSONObject containerObj = new JSONObject();
+            containerObj.put("id", id.toString());
+            containerObj.put("name", name);
+            containerObj.put("type", type);
+            // Configurar los datos del Propietario
+            JSONObject ownerObj = new JSONObject();
+            ownerObj.put("username", user.getUsername());
+            ownerObj.put("password", user.getPassword());
+            ownerObj.put("mail", user.getMail());
+            ownerObj.put("phone", user.getPhone());
+            ownerObj.put("fullName", user.getFullName());
+            ownerObj.put("birthDate", user.getBirthDate());
+            ownerObj.put("profilePicture", null); // Aquí podrías poner la lógica para agregar imágenes
+            containerObj.put("owner", ownerObj);
+            jsonBody.put("container", containerObj);
+            Date date = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            String formattedDate = dateFormat.format(date);
+            jsonBody.put("lastUse", formattedDate);
+
+            Log.d("JSONBody", clothe.getCollection()+clothe.getCategory());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+                            finish();
+                        } catch (Exception e) {
+                            finish();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error.networkResponse != null) {
+                            Log.e("CreateClosetsError", "Error: " + new String(error.networkResponse.data));
+                        } else {
+                            Log.e("CreateClosetsError", "Error: " + error.getMessage());
+                        }
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "Bearer " + userInMemory.getToken());
+                return headers;
+            }
+        };
+
+        queue.add(jsonObjectRequest);
+    }
+
+
     public void onClickAddImage(View view){
         Intent galleryIntent = new Intent();
         galleryIntent.setType("image/*");
@@ -122,4 +262,5 @@ public class AddMoreClothes extends AppCompatActivity {
         chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
         launcher.launch(chooser);
     }
+
 }

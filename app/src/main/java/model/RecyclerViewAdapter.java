@@ -23,10 +23,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private final Context context;
     private final List<Drawable> drawables;
     private final List<String> names;
-    private final List<Date> dates;
+    private final List<String> dates;
     private final SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
 
-    public RecyclerViewAdapter(Context context, List<Drawable> drawables, List<String> names, List<Date> dates) {
+    public RecyclerViewAdapter(Context context, List<Drawable> drawables, List<String> names, List<String> dates) {
         this.context = context;
         this.drawables = drawables;
         this.names = names;
@@ -45,8 +45,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder holder, int position) {
         holder.imageView.setImageDrawable(drawables.get(position));
         holder.tvName.setText(names.get(position));
-        Date date= dates.get(position);
-        holder.tvLastUse.setText(date==null? context.getString(R.string.last_use_null): sdf.format(date));
+        holder.tvLastUse.setText(dates.get(position));
     }
 
     @Override

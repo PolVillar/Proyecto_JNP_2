@@ -164,6 +164,7 @@ public class LogInForm_Screen extends AppCompatActivity {
         }
     }
 
+
     private void authenticateToken(final String username, final String password){
         RequestQueue queue = Volley.newRequestQueue(this/*,new HurlStack(null,newSSLSocketFactory())*/);
         String url = ConnectionConfig.getIp(this)+"/auth/login";

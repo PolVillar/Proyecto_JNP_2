@@ -33,6 +33,7 @@ import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -40,6 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -77,7 +79,7 @@ public class AllCloset extends AppCompatActivity {
         userInMemory = UserJwtInMemory.getInstance();
         User checkUser = userInMemory.getUser();
         if (checkUser==null)finish();
-        sslUtils.disableSSLCertificateChecking();
+        disableSSLCertificateChecking();
         charge();
         closetList= new ArrayList<>();
         closetListImgs= new ArrayList<>();
@@ -428,14 +430,18 @@ public class AllCloset extends AppCompatActivity {
     }
 
 
-    private SSLSocketFactory newSSLSocketFactory() {
-        try {
-            InputStream certificate = getResources().openRawResource(R.raw.marianaows);
+    public SSLSocketFactory newSSLSocketFactory(){
+        try (InputStream certificate =getResources().openRawResource(R.raw.marianaows);
+             InputStream is= getAssets().open("config.properties")){
+            Properties props= new Properties();
+            props.load(is);
+            String keyStorePassword= props.getProperty("keystore_password");
+            Log.i("password",keyStorePassword);
             KeyStore keyStore = KeyStore.getInstance("BKS");
-            keyStore.load(certificate, "marianaoclosetpoljuan".toCharArray());
+            keyStore.load(certificate, keyStorePassword.toCharArray());
 
             KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-            keyManagerFactory.init(keyStore, "marianaoclosetpoljuan".toCharArray());
+            keyManagerFactory.init(keyStore, keyStorePassword.toCharArray());
 
             TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
             trustManagerFactory.init(keyStore);
@@ -445,6 +451,33 @@ public class AllCloset extends AppCompatActivity {
         } catch (NoSuchAlgorithmException | KeyStoreException | KeyManagementException |
                  UnrecoverableKeyException | CertificateException | IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+    public void disableSSLCertificateChecking() {
+        TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+            public X509Certificate[] getAcceptedIssuers() {
+                return null;
+            }
+
+            @Override
+            public void checkClientTrusted(X509Certificate[] arg0, String arg1) {
+                // Not implemented
+            }
+
+            @Override
+            public void checkServerTrusted(X509Certificate[] arg0, String arg1) {
+                // Not implemented
+            }
+        }};
+
+        try {
+            SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, trustAllCerts, new SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+            HttpsURLConnection.setDefaultHostnameVerifier((hostname, session) -> true);
+            Log.i("holassl","ey");
+        } catch (KeyManagementException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
     }
     private void charge() {

@@ -2,6 +2,7 @@ package com.example.proyecto_jnp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,6 +37,7 @@ public class SSLUtils {
             Properties props= new Properties();
             props.load(is);
             String keyStorePassword= props.getProperty("keystore_password");
+            Log.i("password",keyStorePassword);
             KeyStore keyStore = KeyStore.getInstance("BKS");
             keyStore.load(certificate, keyStorePassword.toCharArray());
 
@@ -53,18 +55,16 @@ public class SSLUtils {
         }
     }
     public void disableSSLCertificateChecking() {
-        @SuppressLint("CustomX509TrustManager") TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+        TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
             public X509Certificate[] getAcceptedIssuers() {
                 return null;
             }
 
-            @SuppressLint("TrustAllX509TrustManager")
             @Override
             public void checkClientTrusted(X509Certificate[] arg0, String arg1) {
                 // Not implemented
             }
 
-            @SuppressLint("TrustAllX509TrustManager")
             @Override
             public void checkServerTrusted(X509Certificate[] arg0, String arg1) {
                 // Not implemented
@@ -76,6 +76,7 @@ public class SSLUtils {
             sc.init(null, trustAllCerts, new SecureRandom());
             HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
             HttpsURLConnection.setDefaultHostnameVerifier((hostname, session) -> true);
+            Log.i("holassl","ey");
         } catch (KeyManagementException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }

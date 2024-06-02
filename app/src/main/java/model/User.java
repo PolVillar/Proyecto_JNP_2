@@ -91,13 +91,4 @@ public class User {
         this.profilePicture = profilePicture;
         this.containers = containers;
     }
-
-
-    public String getBase64Image() {
-        return Base64.getEncoder().encodeToString(profilePicture);
-    }
-
-    public void setBase64Image(String b64Image) {
-        this.profilePicture=Base64.getDecoder().decode(b64Image);
-    }
 }

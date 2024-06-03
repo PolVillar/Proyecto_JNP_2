@@ -59,6 +59,7 @@ import javax.net.ssl.X509TrustManager;
 import model.Clothes;
 import model.ClothesRecyclerViewAdapter;
 import model.ConnectionConfig;
+import model.OnItemClickListener;
 import model.UserJwtInMemory;
 
 public class GeneralClosetSuitcase extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
@@ -123,6 +124,12 @@ public class GeneralClosetSuitcase extends AppCompatActivity implements AdapterV
             }
         });
 
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+
+            }
+        });
 
     }
     @Override

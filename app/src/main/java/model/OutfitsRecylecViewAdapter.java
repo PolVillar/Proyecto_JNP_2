@@ -21,13 +21,16 @@ public class OutfitsRecylecViewAdapter extends RecyclerView.Adapter<OutfitsRecyl
 
     private final Context context;
     private final List<Outfit> outfits;
+    private OnItemClickListener onItemClickListener;
     private final SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.FRANCE);
 
     public OutfitsRecylecViewAdapter(Context context, List<Outfit> outfits) {
         this.context = context;
         this.outfits=outfits;
     }
-
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
 
     @NonNull
     @Override
@@ -44,7 +47,8 @@ public class OutfitsRecylecViewAdapter extends RecyclerView.Adapter<OutfitsRecyl
         String date= outfits.get(position).getModificationDate()!=null?
                     context.getString(R.string.created_date,sdf.format(outfits.get(position).getModificationDate()))
                     : context.getString(R.string.modified_date);
-        holder.tvModificationDate.setText(date);            
+        holder.tvModificationDate.setText(date);
+        holder.itemView.setOnClickListener(view -> onItemClickListener.onItemClick(position));
     }
 
     @Override

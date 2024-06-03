@@ -11,7 +11,7 @@ public class ConnectionConfig {
     public static String getIp(Context context) {
         SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(context);
         String ip=sharedPreferences.getString("server_ip","192.168.8.60");
-        //return "https://"+ip+":8443";
-        return "https://192.168.1.187:8443";
+        return "https://"+ip+":8443";
+        //return "https://192.168.1.187:8443";
     }
 }

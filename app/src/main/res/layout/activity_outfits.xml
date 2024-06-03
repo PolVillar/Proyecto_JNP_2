@@ -25,11 +25,12 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="date"
+        android:onClick="onClickShowCalendar"
+        app:layout_constraintBottom_toTopOf="@id/rvOutfits"
         app:layout_constraintEnd_toStartOf="@+id/etDateTo"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar7"
-        app:layout_constraintBottom_toTopOf="@id/rvOutfits"/>
+        app:layout_constraintTop_toBottomOf="@+id/toolbar7" />
 
     <EditText
         android:id="@+id/etDateTo"
@@ -37,6 +38,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="date"
+        android:onClick="onClickShowCalendar"
         app:layout_constraintBottom_toBottomOf="@+id/etDateFrom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

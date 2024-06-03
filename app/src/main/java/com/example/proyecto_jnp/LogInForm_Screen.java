@@ -166,7 +166,7 @@ public class LogInForm_Screen extends AppCompatActivity {
 
 
     private void authenticateToken(final String username, final String password){
-        RequestQueue queue = Volley.newRequestQueue(this/*,new HurlStack(null,newSSLSocketFactory())*/);
+        RequestQueue queue = Volley.newRequestQueue(this,new HurlStack(null,newSSLSocketFactory()));
         String url = ConnectionConfig.getIp(this)+"/auth/login";
         JSONObject jsonBody = new JSONObject();
         try {
@@ -186,6 +186,7 @@ public class LogInForm_Screen extends AppCompatActivity {
                             Boolean statusJSON = response.getBoolean("status");
 
                             userInMemory.setToken(jwtJSON);
+                            disableSSLCertificateChecking();
                             authenticateUser(usernameJSON, jwtJSON);
 
 
@@ -214,7 +215,7 @@ public class LogInForm_Screen extends AppCompatActivity {
 
 
     private void authenticateUser(final String username, String token){
-        RequestQueue queue = Volley.newRequestQueue(this,new HurlStack(null,sslUtils.newSSLSocketFactory()));
+        RequestQueue queue = Volley.newRequestQueue(this,new HurlStack(null,newSSLSocketFactory()));
         //, new HurlStack(null, newSSLSocketFactory())
         String url = ConnectionConfig.getIp(this)+ "/users/get/by/username/"+username;
 

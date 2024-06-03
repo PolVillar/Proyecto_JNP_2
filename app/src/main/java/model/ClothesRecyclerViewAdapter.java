@@ -1,6 +1,7 @@
 package model;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.proyecto_jnp.InfoClothe;
 import com.example.proyecto_jnp.R;
 
 import java.text.SimpleDateFormat;
@@ -43,12 +45,24 @@ public class ClothesRecyclerViewAdapter extends RecyclerView.Adapter<ClothesRecy
 
     @Override
     public void onBindViewHolder(@NonNull ClothesRecyclerViewAdapter.ViewHolder holder, int position) {
+        Clothes clothes = clothesList.get(position);
         holder.imageView.setImageDrawable(parseDrawable(clothesList.get(position).getPicture()));
         holder.tvName.setText(clothesList.get(position).getName());
         String date= clothesList.get(position).getLastUse()!=null?
                 context.getString(R.string.last_use,sdf.format(clothesList.get(position).getLastUse()))
                 : context.getString(R.string.last_use_null);
         holder.tvLastUse.setText(date);
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, InfoClothe.class);
+            intent.putExtra("clothesId", clothes.getId());
+            intent.putExtra("clothesName",clothes.getName());
+            intent.putExtra("clothesColor",clothes.getColor());
+            intent.putExtra("clothesSize",clothes.getSize());
+            intent.putExtra("clothesCollection",clothes.getCollection());
+            intent.putExtra("clothesCategory",clothes.getCategory());
+            intent.putExtra("clothesImg",clothes.getPicture());
+            context.startActivity(intent);
+        });
     }
 
     @Override

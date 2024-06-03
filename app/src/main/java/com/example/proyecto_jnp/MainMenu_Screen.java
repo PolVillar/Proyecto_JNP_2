@@ -36,7 +36,7 @@
             userInMemory = UserJwtInMemory.getInstance();
             toolbar = findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
-            getSupportActionBar().setTitle("App Name");
+            getSupportActionBar().setTitle(getString(R.string.app_name));
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             toolbar.setNavigationIcon(R.drawable.burger_menu);
 

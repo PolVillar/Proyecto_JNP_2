@@ -177,12 +177,16 @@ public class GeneralClosetSuitcase extends AppCompatActivity implements AdapterV
                                 String pic = responseObj.getString("picture");
                                 byte[] byteArray = Base64.decode(pic, Base64.DEFAULT);
                                 clothes.setPicture(byteArray);
+                                clothes.setId(responseObj.getLong("id"));
                                 String name=responseObj.getString("name");
                                 clothes.setName(name);
                                 String lastUse = responseObj.getString("lastUse");
                                 clothesDates.add(lastUse);
-
+                                clothes.setColor(responseObj.getString("color"));
+                                clothes.setSize(responseObj.getString("size"));
                                 clothes.setLastUse(ClothesRecyclerViewAdapter.sdf.parse(lastUse));
+                                clothes.setCategory(responseObj.getString("category"));
+                                clothes.setCollection(responseObj.getString("collection"));
                                 Log.d("estoy aqui:",name);
                                 clothesList.add(clothes);
                                 // Further code to handle the closets

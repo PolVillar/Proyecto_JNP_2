@@ -52,8 +52,8 @@
     <string name="collection_summer" translatable="false">Summer</string>
     <string name="collection_autumn" translatable="false">Autumn</string>
     <string name="category_jacket" translatable="false">Jacket</string>
-    <string name="category_shirt" translatable="false">Sweater-Shirt</string>
-    <string name="category_pants" translatable="false">Pants-Skirt</string>
+    <string name="category_shirt" translatable="false">Sweater_Shirt</string>
+    <string name="category_pants" translatable="false">Pants_Skirt</string>
     <string name="category_shoes" translatable="false">Shoes</string>
     <string name="category_underwear" translatable="false">Underwear</string>
     <string name="category_complement">Complement</string>

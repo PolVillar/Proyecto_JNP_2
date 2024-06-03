@@ -56,6 +56,7 @@ public class User {
     }
 
     public String getBirthDate() {
+
         return birthDate;
     }
 

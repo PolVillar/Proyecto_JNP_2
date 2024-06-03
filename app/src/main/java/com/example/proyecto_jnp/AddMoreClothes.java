@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -35,6 +36,10 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,6 +48,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import model.Clothes;
 import model.ConnectionConfig;
@@ -72,17 +82,45 @@ public class AddMoreClothes extends AppCompatActivity {
         setContentView(R.layout.activity_add_more_clothes);
         charge();
         setAdapters();
-        sslUtils.disableSSLCertificateChecking();
+        disableSSLCertificateChecking();
         Intent intent = getIntent();
         type = intent.getStringExtra("containerType");
         id = intent.getLongExtra("containerId",0);
         name = intent.getStringExtra("containerName");
+        toolbar=findViewById(R.id.toolbar5);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(intent.getStringExtra(""));
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setBackCallback();
     }
+    public void disableSSLCertificateChecking() {
+        @SuppressLint("CustomX509TrustManager") TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+            public X509Certificate[] getAcceptedIssuers() {
+                return null;
+            }
 
+            @SuppressLint("TrustAllX509TrustManager")
+            @Override
+            public void checkClientTrusted(X509Certificate[] arg0, String arg1) {
+                // Not implemented
+            }
+
+            @SuppressLint("TrustAllX509TrustManager")
+            @Override
+            public void checkServerTrusted(X509Certificate[] arg0, String arg1) {
+                // Not implemented
+            }
+        }};
+
+        try {
+            SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, trustAllCerts, new SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+            HttpsURLConnection.setDefaultHostnameVerifier((hostname, session) -> true);
+        } catch (KeyManagementException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+    }
     private void setBackCallback() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override

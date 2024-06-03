@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LogIn_Screen">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/appName_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="20dp"
+                android:text="@string/app_name"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.05" />
+
+            <ImageView
+                android:id="@+id/imageCloset"
+                android:layout_width="match_parent"
+                android:layout_height="214dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView2"
+                app:layout_constraintVertical_bias="0.05"
+                tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+            <TextView
+                android:id="@+id/reg_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/reg_now"
+                android:padding="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                app:layout_constraintVertical_bias="0.2" />
+
+            <Button
+                android:id="@+id/register_bt"
+                android:layout_width="250dp"
+                android:layout_height="71dp"
+                android:text="@string/register"
+                android:layout_gravity="center"
+                android:layout_margin="40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:layout_constraintVertical_bias="0.2" />
+
+            <Button
+                android:id="@+id/logIn_bt"
+                android:layout_width="250dp"
+                android:layout_height="71dp"
+                android:text="@string/login"
+                android:layout_margin="20dp"
+                android:layout_gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button"
+                app:layout_constraintVertical_bias="0.15" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

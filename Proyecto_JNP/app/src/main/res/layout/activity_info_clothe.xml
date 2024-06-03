@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddMoreClothes">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollView4"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar5">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ivClotheEdit"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:onClick="onClickAddImage"
+                app:srcCompat="@drawable/baseline_add_photo_alternate_24" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/etNameEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:ems="10"
+                        android:hint="@string/clothe_name"
+                        android:inputType="text" />
+
+                    <EditText
+                        android:id="@+id/etColorEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:ems="10"
+                        android:hint="@string/color"
+                        android:inputType="text" />
+
+                    <EditText
+                        android:id="@+id/etSizeEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:ems="10"
+                        android:hint="@string/size"
+                        android:inputType="text"
+                        tools:ignore="TextFields" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvCategory"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:text="@string/category"
+                        android:textSize="20sp" />
+
+                    <Spinner
+                        android:id="@+id/spCategoryEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="0"
+                        android:gravity="end" />
+
+                    <TextView
+                        android:id="@+id/tvCollection"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:text="@string/collection"
+                        android:textSize="20sp" />
+
+                    <Spinner
+                        android:id="@+id/spCollectionEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_weight="0" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Container:"
+                android:textSize="20sp"/>
+
+            <Spinner
+                android:id="@+id/spinner2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/bEditClothe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClickCreate"
+                android:text="EDIT" />
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

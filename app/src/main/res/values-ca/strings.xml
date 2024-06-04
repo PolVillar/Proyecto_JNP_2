@@ -63,4 +63,10 @@
     <string name="size">Mida</string>
     <string name="category">Categoria:</string>
     <string name="collection">Col·lecció:</string>
+    <string name="mkplace">Mercat</string>
+    <string name="ycloset">Armari personal</string>
+    <string name="doutfit">Conjunt diari</string>
+    <string name="snetwork">Xarxa Social</string>
+    <string name="logout">Tancar Sessió</string>
+    <string name="ecloset">Editar armari</string>
 </resources>

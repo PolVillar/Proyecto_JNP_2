@@ -6,14 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".LogIn_Screen">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:menuGravity="center" />
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="663dp"
+        app:layout_constraintBottom_toTopOf="@+id/toolbar9"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/appName_txt"
@@ -43,10 +60,10 @@
                 android:id="@+id/reg_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/reg_now"
-                android:padding="30dp"
-                android:layout_marginTop="30dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:padding="30dp"
+                android:text="@string/reg_now"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -57,9 +74,9 @@
                 android:id="@+id/register_bt"
                 android:layout_width="250dp"
                 android:layout_height="71dp"
-                android:text="@string/register"
                 android:layout_gravity="center"
                 android:layout_margin="40dp"
+                android:text="@string/register"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -70,14 +87,15 @@
                 android:id="@+id/logIn_bt"
                 android:layout_width="250dp"
                 android:layout_height="71dp"
-                android:text="@string/login"
-                android:layout_margin="20dp"
                 android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:text="@string/login"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button"
                 app:layout_constraintVertical_bias="0.15" />
+
 
         </LinearLayout>
     </ScrollView>

@@ -44,8 +44,7 @@
     <string name="all_suitcases">TODAS LAS MALETAS</string>
     <string name="all_list">TODO</string>
     <string name="last_use_null">No usado aún</string>
-
-    <string name="category_complement">Complemento</string>
+    
     <string name="title_activity_settings">Configuración</string>
     <string name="server_ip_title">IP del servidor</string>
     <string name="server_ip_summary">Introduce la IP del servidor de la app</string>
@@ -55,4 +54,10 @@
     <string name="size">Tamaño</string>
     <string name="category">Categoría:</string>
     <string name="collection">Colección:</string>
+    <string name="mkplace">Mercado</string>
+    <string name="ycloset">Armario personal</string>
+    <string name="doutfit">Conjunto diario</string>
+    <string name="snetwork">Red social</string>
+    <string name="logout">Cerrar Sesión</string>
+    <string name="ecloset">Editar armario</string>
 </resources>

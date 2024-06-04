@@ -136,7 +136,7 @@ public class AllCloset extends AppCompatActivity {
         }
     }
 
-    private void countClosetsQuery() {
+    public void countClosetsQuery() {
         RequestQueue queue = Volley.newRequestQueue(this, new HurlStack(null, newSSLSocketFactory()));
         String ownerUsername = userInMemory.getUser().getUsername();
         String url = ConnectionConfig.getIp(this) + "/containers/find/all/CLOSETS?owner=" + ownerUsername;
@@ -224,13 +224,13 @@ public class AllCloset extends AppCompatActivity {
     }
     private void showUsernameInputDialog(Container.Type type) {
         AlertDialog.Builder builder = new AlertDialog.Builder(AllCloset.this);
-        builder.setTitle("Name");
+        builder.setTitle(R.string.clothe_name);
 
         final EditText input = new EditText(AllCloset.this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
 
-        builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.create, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String name = input.getText().toString().trim();

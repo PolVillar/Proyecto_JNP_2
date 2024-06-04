@@ -4,24 +4,24 @@
 
     <item
         android:id="@+id/yourCloset"
-        android:title="Your closet"
+        android:title="@string/ycloset"
         app:showAsAction="never"/>
 
     <item
         android:id="@+id/marketplace"
-        android:title="Marketplace"
+        android:title="@string/mkplace"
         app:showAsAction="never"/>
     <item
         android:id="@+id/dailyOutfit"
-        android:title="Daily Outfit"
+        android:title="@string/doutfit"
         app:showAsAction="never"/>
     <item
         android:id="@+id/socialNetwork"
-        android:title="Social Network"
+        android:title="@string/snetwork"
         app:showAsAction="never"/>
 
     <item
         android:id="@+id/logOut"
-        android:title="Log Out"
+        android:title="@string/logout"
         app:showAsAction="never"/>
 </menu>

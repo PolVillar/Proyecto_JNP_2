@@ -12,7 +12,7 @@ import java.util.List;
 
 import model.Clothes;
 import model.ClothesRecyclerViewAdapter;
-import model.OnItemClickListener;
+//import model.OnItemClickListener;
 import model.Outfit;
 
 public class NewOutfitActivity extends AppCompatActivity {
@@ -28,13 +28,13 @@ public class NewOutfitActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_outfit);
         setBackCallback();
         charge();
-        clothesAdapter.setOnItemClickListener(pos -> {
+        /*clothesAdapter.setOnClickListener(pos -> {
             Clothes c = clothes.get(pos);
             if(!selectedClothes.contains(c)) selectedClothes.add(c);
         });
         selectedClothesAdapter.setOnItemClickListener(pos -> {
             selectedClothes.remove(pos);
-        });
+        });*/
     }
     private void setBackCallback() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {

@@ -234,7 +234,7 @@ public class LogInForm_Screen extends AppCompatActivity {
                             //Containers
 
                             byte[] byteArray = Base64.decode(profilePictureJSON, Base64.DEFAULT);
-                            User user = new User(usernameJSON,passwordJSON,mailJSON,phoneJSON,fullNameJSON,birthdateJSON,byteArray,null);
+                            User user = new User(usernameJSON,password.getText().toString(),mailJSON,phoneJSON,fullNameJSON,birthdateJSON,byteArray,null);
                             userInMemory.setUser(user);
 
                             Intent intent = new Intent(LogInForm_Screen.this, MainMenu_Screen.class);

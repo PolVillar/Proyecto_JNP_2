@@ -1,20 +1,25 @@
 package com.example.proyecto_jnp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,11 +32,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyManagementException;
@@ -41,8 +48,10 @@ import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +69,7 @@ import javax.net.ssl.X509TrustManager;
 import model.Clothes;
 import model.ConnectionConfig;
 import model.ClothesRecyclerViewAdapter;
+import model.Container;
 import model.UserJwtInMemory;
 
 public class GeneralClosetSuitcase extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
@@ -78,6 +88,7 @@ public class GeneralClosetSuitcase extends AppCompatActivity implements AdapterV
     private Long id;
     private Button add;
     private Spinner collectionFilter, categoryFilter;
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +110,7 @@ public class GeneralClosetSuitcase extends AppCompatActivity implements AdapterV
         Intent intent = getIntent();
         getSupportActionBar().setTitle(intent.getStringExtra("closetName"));
         String closetName = intent.getStringExtra("closetName");
-        String type = intent.getStringExtra("closetType");
+        type = intent.getStringExtra("closetType");
         id = intent.getLongExtra("closetId",0);
         Log.d("Id:",id.toString());
         disableSSLCertificateChecking();
@@ -112,6 +123,16 @@ public class GeneralClosetSuitcase extends AppCompatActivity implements AdapterV
         }
         collectionFilter.setOnItemSelectedListener(this);
         categoryFilter.setOnItemSelectedListener(this);
+
+        toolbar.inflateMenu(R.menu.edit_closet);
+        toolbar.setOnMenuItemClickListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.editCloset){
+                showUsernameInputDialog();
+                return true;
+            }
+            return false;
+        });
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,8 +148,99 @@ public class GeneralClosetSuitcase extends AppCompatActivity implements AdapterV
 
     }
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.edit_closet, menu);
+        return true;
+    }
+    @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         countSuitcasesQuery(collectionFilter.getSelectedItem().toString(), categoryFilter.getSelectedItem().toString());
+    }
+    private void updateClothe(String name) {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String ownerUsername = userInMemory.getUser().getUsername();
+        String url = ConnectionConfig.getIp(this) + "/containers/update";
+
+        try {
+
+            // Construir el JSON con los datos recogidos
+            JSONObject containerJson = new JSONObject();
+
+            containerJson.put("id", id);
+            containerJson.put("name",name);
+            containerJson.put("type",type);
+
+            // Añadir los campos del propietario si es necesario
+            JSONObject ownerJson = new JSONObject();
+            ownerJson.put("username", userInMemory.getUser().getUsername());
+            ownerJson.put("birthDate",userInMemory.getUser().getBirthDate());
+            ownerJson.put("profilePicture",null);
+            // Añadir otros campos necesarios del propietario aquí
+
+            containerJson.put("owner", ownerJson);
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                    Request.Method.PUT,
+                    url,
+                    containerJson,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Intent intent = new Intent(GeneralClosetSuitcase.this, AllCloset.class);
+                            startActivity(intent);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+                        }
+                    }) {
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Content-Type", "application/json");
+                    headers.put("Authorization", "Bearer " + userInMemory.getToken());
+                    return headers;
+                }
+            };
+
+            queue.add(jsonObjectRequest);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+    private void showUsernameInputDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(GeneralClosetSuitcase.this);
+        builder.setTitle(R.string.clothe_name);
+
+        final EditText input = new EditText(GeneralClosetSuitcase.this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        builder.setPositiveButton(R.string.ecloset, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String name = input.getText().toString().trim();
+                if (type.equals(Container.Type.CLOSET)){
+                    updateClothe(name);
+                    recreate();
+                }else{
+                    updateClothe(name);
+                    recreate();
+                }
+
+            }
+        });
+        builder.setNegativeButton(getText(R.string.cancel).toString(), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     @Override

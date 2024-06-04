@@ -13,7 +13,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import model.Clothes;
-import model.OnItemClickListener;
+//import model.OnItemClickListener;
 import model.Outfit;
 import model.OutfitsRecylecViewAdapter;
 
@@ -27,9 +27,9 @@ public class OutfitsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_outfits);
         setBackCallback();
         charge();
-        adapter.setOnItemClickListener(pos -> {
+       /* adapter.setOnItemClickListener(pos -> {
             Outfit outfit= outfits.get(pos);
-        });
+        });*/
     }
     private void setBackCallback() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {

@@ -50,7 +50,7 @@
                 android:id="@+id/username_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
+                android:hint="@string/username"
                 android:gravity="center"
                 android:padding="20dp"/>
 
@@ -62,21 +62,31 @@
                 android:gravity="center"
                 android:padding="20dp"/>
 
-            <TextView
+            <EditText
                 android:id="@+id/phone_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
+                android:hint="@string/phone"
                 android:gravity="center"
+                android:inputType="phone"
                 android:padding="20dp"/>
 
             <TextView
                 android:id="@+id/birthday_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
+                android:inputType="date"
+                android:focusable="false"
+                android:clickable="true"
+                android:hint="Birthday"
                 android:gravity="center"
                 android:padding="20dp"/>
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/update_closet" />
 
         </LinearLayout>
     </ScrollView>

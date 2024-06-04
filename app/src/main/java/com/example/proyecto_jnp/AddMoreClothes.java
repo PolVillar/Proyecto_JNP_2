@@ -81,6 +81,7 @@ public class AddMoreClothes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_more_clothes);
         charge();
+        userInMemory = UserJwtInMemory.getInstance();
         setAdapters();
         disableSSLCertificateChecking();
         Intent intent = getIntent();
@@ -221,7 +222,7 @@ public class AddMoreClothes extends AppCompatActivity {
     }
 
     private void createClothe(User user,Clothes clothe){
-        RequestQueue queue = Volley.newRequestQueue(this,new HurlStack(null,sslUtils.newSSLSocketFactory()));
+        RequestQueue queue = Volley.newRequestQueue(this);
         String url = ConnectionConfig.getIp(this) + "/clothes/save";
 
         JSONObject jsonBody = new JSONObject();
@@ -234,8 +235,8 @@ public class AddMoreClothes extends AppCompatActivity {
             byte[] byteArray = clothe.getPicture();
             String base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT);
             jsonBody.put("picture", base64Image);
-            jsonBody.put("collection", clothe.getCollection());
-            jsonBody.put("category", clothe.getCategory());
+            jsonBody.put("collection", clothe.getCollection().toUpperCase());
+            jsonBody.put("category", clothe.getCategory().toUpperCase());
             // Agregar el objeto Container
             JSONObject containerObj = new JSONObject();
             containerObj.put("id", id.toString());

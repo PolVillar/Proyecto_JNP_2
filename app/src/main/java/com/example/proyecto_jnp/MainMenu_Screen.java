@@ -9,6 +9,7 @@
     import android.graphics.drawable.BitmapDrawable;
     import android.graphics.drawable.Drawable;
     import android.os.Bundle;
+    import android.util.Log;
     import android.view.Menu;
     import android.view.MenuItem;
     import android.view.View;
@@ -26,6 +27,8 @@
         private Menu menu;
         private ImageView image;
         private UserJwtInMemory userInMemory;
+        private byte[] byteArray;
+        private Boolean check=false;
         @SuppressLint("RestrictedApi")
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,7 @@
                     return true;
                 }
                 else if (id == R.id.socialNetworkIcon){
+                    startActivity(new Intent(this, SettingsActivity.class));
                     return true;
                 }
                 return false;
@@ -65,6 +69,7 @@
                 int id = item.getItemId();
                 if (id == R.id.userProfile) {
                     Intent i  = new Intent(MainMenu_Screen.this,UserProfile_Class.class);
+                    check=true;
                     startActivity(i);
                     return true;
                 }
@@ -92,6 +97,7 @@
                                 // Manejar el clic en la opción "Daily Outfit"
                                 return true;
                             } else if (id == R.id.socialNetwork) {
+                                startActivity(new Intent(MainMenu_Screen.this, SettingsActivity.class));
                                 // Manejar el clic en la opción "Social Network"
                                 return true;
                             } else if (id == R.id.logOut) {
@@ -116,13 +122,21 @@
 
            //Descomentar (Request de pfp)
             User user = userInMemory.getUser();
-            byte[] byteArray = user.getProfilePicture();
+            byteArray = user.getProfilePicture();
             Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
             MenuItem userPfp = menu.findItem(R.id.userProfile);
             Drawable iconDrawable = new BitmapDrawable(getResources(), bitmap);
             userPfp.setIcon(iconDrawable);
             return true;
+        }
+        @Override
+        protected void onResume() {
+            super.onResume();
+          if (check){
+              recreate();
+          }
+
         }
         private void charge(){
             bottomToolbar = findViewById(R.id.toolbar3);

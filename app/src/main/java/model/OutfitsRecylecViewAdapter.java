@@ -52,6 +52,9 @@ public class OutfitsRecylecViewAdapter extends RecyclerView.Adapter<OutfitsRecyl
         return outfits.size();
     }
 
+    public void setOnItemClickListener(Object o) {
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvOutfitName;
         TextView tvCreationDate;

@@ -66,4 +66,6 @@
     <string name="select_image_title">Selecciona de dónde quieres sacar la imagen</string>
     <string name="created_date">Creado: %1$s</string>
     <string name="modified_date">Modificado: %1$s</string>
+    <string name="edit">EDITAR</string>
+    <string name="yprofile">Perfil de usuario</string>
 </resources>

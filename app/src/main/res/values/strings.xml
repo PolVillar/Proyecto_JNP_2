@@ -75,6 +75,8 @@
     <string name="snetwork">Social Network</string>
     <string name="logout">Log Out</string>
     <string name="ecloset">Edit closet</string>
+    <string name="edit">EDIT</string>
+    <string name="yprofile">Your Profile</string>
 
 
 </resources>

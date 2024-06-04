@@ -75,4 +75,6 @@
     <string name="select_image_title">Selecciona d\'on vols treure la imatge</string>
     <string name="created_date">Creat: %1$s</string>
     <string name="modified_date">Modificat: %1$s</string>
+    <string name="edit">EDITAR</string>
+    <string name="yprofile">Perfil d\'usuari</string>
 </resources>

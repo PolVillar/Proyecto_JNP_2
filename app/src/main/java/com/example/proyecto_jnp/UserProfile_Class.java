@@ -59,7 +59,7 @@ public class UserProfile_Class extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar6);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Your Profile");
+        getSupportActionBar().setTitle(getString(R.string.yprofile));
         userInMemory = UserJwtInMemory.getInstance();
         initializeLauncher();
 

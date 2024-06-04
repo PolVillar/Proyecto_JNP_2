@@ -1,0 +1,266 @@
+[
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/drawable_burger_menu.png.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/drawable/burger_menu.png"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/layout_outfits_list.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/layout/outfits_list.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/layout-land_activity_register_form_screen.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/layout-land/activity_register_form_screen.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/drawable_doutfit_icon.png.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/drawable/doutfit_icon.png"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/drawable_arrow_right.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/drawable/arrow_right.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/drawable_profile_blank.png.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/drawable/profile_blank.png"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/layout_activity_menu_user_test.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/layout/activity_menu_user_test.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/layout_activity_all_closet.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/layout/activity_all_closet.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/drawable_closet_img.jpg.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/drawable/closet_img.jpg"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/menu_main_menu_user.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/menu/main_menu_user.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/menu_back_menu.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/menu/back_menu.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/menu_main_menu.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/menu/main_menu.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/drawable_closet_but.png.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/drawable/closet_but.png"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/xml_backup_rules.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/layout_activity_main.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/layout-land_activity_log_in_form_screen.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/layout-land/activity_log_in_form_screen.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/layout_activity_new_outfit.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/layout/activity_new_outfit.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/drawable_money_icon.png.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/drawable/money_icon.png"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/xml_network_security_config.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/xml/network_security_config.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/layout_activity_user_profile_class.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/layout/activity_user_profile_class.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/drawable_estaciones.jpg.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/drawable/estaciones.jpg"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/layout_activity_create_closet.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/layout/activity_create_closet.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/drawable_jacket.jpg.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/drawable/jacket.jpg"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/xml_root_preferences.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/xml/root_preferences.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/drawable_network_icon.png.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/drawable/network_icon.png"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/drawable_winter.jpg.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/drawable/winter.jpg"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/layout_activity_info_clothe.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/layout/activity_info_clothe.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/drawable_plus.png.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/drawable/plus.png"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/drawable_add_info.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/drawable/add_info.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/drawable-v24_ic_launcher_foreground.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/drawable-v24/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/drawable_baseline_add_photo_alternate_24.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/drawable/baseline_add_photo_alternate_24.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/layout_activity_main_menu_screen.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/layout/activity_main_menu_screen.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/layout_activity_outfits.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/layout/activity_outfits.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/xml_data_extraction_rules.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/raw_marianaows.bks.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/raw/marianaows.bks"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/layout_image_recycle_view.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/layout/image_recycle_view.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/layout_activity_add_more_clothes.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/layout/activity_add_more_clothes.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/layout_activity_log_in_screen.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/layout/activity_log_in_screen.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/layout_activity_suitcase.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/layout/activity_suitcase.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/layout_activity_register_form_screen.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/layout/activity_register_form_screen.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/drawable_delete.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/drawable/delete.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/layout_activity_crud_closets.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/layout/activity_crud_closets.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/layout_activity_log_in_form_screen.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/layout/activity_log_in_form_screen.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/layout_settings_activity.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/layout/settings_activity.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/drawable_closet_icon.png.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/drawable/closet_icon.png"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/drawable_back.png.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/drawable/back.png"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/menu_bottom_menu.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/menu/bottom_menu.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/drawable_suitcase_but.png.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/drawable/suitcase_but.png"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/drawable_arrow.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/drawable/arrow.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/layout-land_activity_add_more_clothes.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/layout-land/activity_add_more_clothes.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/layout-land_activity_log_in_screen.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/layout-land/activity_log_in_screen.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/drawable_arrow_left.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/drawable/arrow_left.xml"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.proyecto_jnp.app-merged_res-35:/layout-land_activity_all_closet.xml.flat",
+        "source": "com.example.proyecto_jnp.app-main-37:/layout-land/activity_all_closet.xml"
+    }
+]

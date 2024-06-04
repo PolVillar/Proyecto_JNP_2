@@ -1,0 +1,199 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.proyecto_jnp"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="24"
+8-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="33" />
+9-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:5:5-67
+11-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:5:22-64
+12
+13    <permission
+13-->[androidx.core:core:1.9.0] C:\Users\magic\.gradle\caches\transforms-3\55dedc70b95a473650eda30d4efd0f99\transformed\core-1.9.0\AndroidManifest.xml:22:5-24:47
+14        android:name="com.example.proyecto_jnp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+14-->[androidx.core:core:1.9.0] C:\Users\magic\.gradle\caches\transforms-3\55dedc70b95a473650eda30d4efd0f99\transformed\core-1.9.0\AndroidManifest.xml:23:9-81
+15        android:protectionLevel="signature" />
+15-->[androidx.core:core:1.9.0] C:\Users\magic\.gradle\caches\transforms-3\55dedc70b95a473650eda30d4efd0f99\transformed\core-1.9.0\AndroidManifest.xml:24:9-44
+16
+17    <uses-permission android:name="com.example.proyecto_jnp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+17-->[androidx.core:core:1.9.0] C:\Users\magic\.gradle\caches\transforms-3\55dedc70b95a473650eda30d4efd0f99\transformed\core-1.9.0\AndroidManifest.xml:26:5-97
+17-->[androidx.core:core:1.9.0] C:\Users\magic\.gradle\caches\transforms-3\55dedc70b95a473650eda30d4efd0f99\transformed\core-1.9.0\AndroidManifest.xml:26:22-94
+18
+19    <application
+19-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:7:5-73:19
+20        android:allowBackup="true"
+20-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:8:9-35
+21        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+21-->[androidx.core:core:1.9.0] C:\Users\magic\.gradle\caches\transforms-3\55dedc70b95a473650eda30d4efd0f99\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
+22        android:dataExtractionRules="@xml/data_extraction_rules"
+22-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:9:9-65
+23        android:debuggable="true"
+24        android:extractNativeLibs="false"
+25        android:fullBackupContent="@xml/backup_rules"
+25-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:10:9-54
+26        android:icon="@mipmap/ic_launcher"
+26-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:11:9-43
+27        android:label="@string/app_name"
+27-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:12:9-41
+28        android:networkSecurityConfig="@xml/network_security_config"
+28-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:13:9-69
+29        android:roundIcon="@mipmap/ic_launcher_round"
+29-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:14:9-54
+30        android:supportsRtl="true"
+30-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:15:9-35
+31        android:testOnly="true"
+32        android:theme="@style/Theme.Proyecto_JNP" >
+32-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:16:9-50
+33        <activity
+33-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:18:9-20:40
+34            android:name="com.example.proyecto_jnp.InfoClothe"
+34-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:19:13-39
+35            android:exported="false" />
+35-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:20:13-37
+36        <activity
+36-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:21:9-23:40
+37            android:name="com.example.proyecto_jnp.NewOutfitActivity"
+37-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:22:13-46
+38            android:exported="false" />
+38-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:23:13-37
+39        <activity
+39-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:24:9-26:40
+40            android:name="com.example.proyecto_jnp.OutfitsActivity"
+40-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:25:13-44
+41            android:exported="false" />
+41-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:26:13-37
+42        <activity
+42-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:27:9-30:63
+43            android:name="com.example.proyecto_jnp.SettingsActivity"
+43-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:28:13-45
+44            android:exported="false"
+44-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:29:13-37
+45            android:label="@string/title_activity_settings" />
+45-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:30:13-60
+46        <activity
+46-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:31:9-33:40
+47            android:name="com.example.proyecto_jnp.MenuUser_Test"
+47-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:32:13-42
+48            android:exported="false" />
+48-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:33:13-37
+49        <activity
+49-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:34:9-36:40
+50            android:name="com.example.proyecto_jnp.UserProfile_Class"
+50-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:35:13-46
+51            android:exported="false" />
+51-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:36:13-37
+52        <activity
+52-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:37:9-39:40
+53            android:name="com.example.proyecto_jnp.GeneralClosetSuitcase"
+53-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:38:13-50
+54            android:exported="false" />
+54-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:39:13-37
+55        <activity
+55-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:40:9-42:40
+56            android:name="com.example.proyecto_jnp.MainMenu_Screen"
+56-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:41:13-44
+57            android:exported="false" />
+57-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:42:13-37
+58        <activity
+58-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:43:9-45:40
+59            android:name="com.example.proyecto_jnp.LogInForm_Screen"
+59-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:44:13-45
+60            android:exported="false" />
+60-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:45:13-37
+61        <activity
+61-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:46:9-48:40
+62            android:name="com.example.proyecto_jnp.RegisterForm_Screen"
+62-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:47:13-48
+63            android:exported="false" />
+63-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:48:13-37
+64        <activity
+64-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:49:9-51:40
+65            android:name="com.example.proyecto_jnp.CreateCloset"
+65-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:50:13-41
+66            android:exported="false" />
+66-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:51:13-37
+67        <activity
+67-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:52:9-54:40
+68            android:name="com.example.proyecto_jnp.CRUDClosets"
+68-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:53:13-40
+69            android:exported="false" />
+69-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:54:13-37
+70        <activity
+70-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:55:9-57:40
+71            android:name="com.example.proyecto_jnp.AddMoreClothes"
+71-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:56:13-43
+72            android:exported="false" />
+72-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:57:13-37
+73        <activity
+73-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:58:9-60:39
+74            android:name="com.example.proyecto_jnp.LogIn_Screen"
+74-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:59:13-41
+75            android:exported="true" />
+75-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:60:13-36
+76        <activity
+76-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:61:9-63:39
+77            android:name="com.example.proyecto_jnp.AllCloset"
+77-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:62:13-38
+78            android:exported="true" />
+78-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:63:13-36
+79        <activity
+79-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:64:9-72:20
+80            android:name="com.example.proyecto_jnp.MainActivity"
+80-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:65:13-41
+81            android:exported="true" >
+81-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:66:13-36
+82            <intent-filter>
+82-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:67:13-71:29
+83                <action android:name="android.intent.action.MAIN" />
+83-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:68:17-69
+83-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:68:25-66
+84
+85                <category android:name="android.intent.category.LAUNCHER" />
+85-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:70:17-77
+85-->D:\_AA CFGS\Proyecto_JNP_2-rama_pol_noelia_merge\Proyecto_JNP_2-rama_pol_noelia_merge\app\src\main\AndroidManifest.xml:70:27-74
+86            </intent-filter>
+87        </activity>
+88
+89        <provider
+89-->[androidx.emoji2:emoji2:1.2.0] C:\Users\magic\.gradle\caches\transforms-3\58734ab3db9d01442ffac75a0ea2bc68\transformed\emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+90            android:name="androidx.startup.InitializationProvider"
+90-->[androidx.emoji2:emoji2:1.2.0] C:\Users\magic\.gradle\caches\transforms-3\58734ab3db9d01442ffac75a0ea2bc68\transformed\emoji2-1.2.0\AndroidManifest.xml:25:13-67
+91            android:authorities="com.example.proyecto_jnp.androidx-startup"
+91-->[androidx.emoji2:emoji2:1.2.0] C:\Users\magic\.gradle\caches\transforms-3\58734ab3db9d01442ffac75a0ea2bc68\transformed\emoji2-1.2.0\AndroidManifest.xml:26:13-68
+92            android:exported="false" >
+92-->[androidx.emoji2:emoji2:1.2.0] C:\Users\magic\.gradle\caches\transforms-3\58734ab3db9d01442ffac75a0ea2bc68\transformed\emoji2-1.2.0\AndroidManifest.xml:27:13-37
+93            <meta-data
+93-->[androidx.emoji2:emoji2:1.2.0] C:\Users\magic\.gradle\caches\transforms-3\58734ab3db9d01442ffac75a0ea2bc68\transformed\emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+94                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+94-->[androidx.emoji2:emoji2:1.2.0] C:\Users\magic\.gradle\caches\transforms-3\58734ab3db9d01442ffac75a0ea2bc68\transformed\emoji2-1.2.0\AndroidManifest.xml:30:17-75
+95                android:value="androidx.startup" />
+95-->[androidx.emoji2:emoji2:1.2.0] C:\Users\magic\.gradle\caches\transforms-3\58734ab3db9d01442ffac75a0ea2bc68\transformed\emoji2-1.2.0\AndroidManifest.xml:31:17-49
+96            <meta-data
+96-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\magic\.gradle\caches\transforms-3\75d35fda4271de3dc184847093d1a2b0\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
+97                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+97-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\magic\.gradle\caches\transforms-3\75d35fda4271de3dc184847093d1a2b0\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
+98                android:value="androidx.startup" />
+98-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\magic\.gradle\caches\transforms-3\75d35fda4271de3dc184847093d1a2b0\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
+99        </provider>
+100
+101        <uses-library
+101-->[androidx.window:window:1.0.0] C:\Users\magic\.gradle\caches\transforms-3\98fbcfdeb64a67de9fd697c6d31f0b08\transformed\window-1.0.0\AndroidManifest.xml:25:9-27:40
+102            android:name="androidx.window.extensions"
+102-->[androidx.window:window:1.0.0] C:\Users\magic\.gradle\caches\transforms-3\98fbcfdeb64a67de9fd697c6d31f0b08\transformed\window-1.0.0\AndroidManifest.xml:26:13-54
+103            android:required="false" />
+103-->[androidx.window:window:1.0.0] C:\Users\magic\.gradle\caches\transforms-3\98fbcfdeb64a67de9fd697c6d31f0b08\transformed\window-1.0.0\AndroidManifest.xml:27:13-37
+104        <uses-library
+104-->[androidx.window:window:1.0.0] C:\Users\magic\.gradle\caches\transforms-3\98fbcfdeb64a67de9fd697c6d31f0b08\transformed\window-1.0.0\AndroidManifest.xml:28:9-30:40
+105            android:name="androidx.window.sidecar"
+105-->[androidx.window:window:1.0.0] C:\Users\magic\.gradle\caches\transforms-3\98fbcfdeb64a67de9fd697c6d31f0b08\transformed\window-1.0.0\AndroidManifest.xml:29:13-51
+106            android:required="false" />
+106-->[androidx.window:window:1.0.0] C:\Users\magic\.gradle\caches\transforms-3\98fbcfdeb64a67de9fd697c6d31f0b08\transformed\window-1.0.0\AndroidManifest.xml:30:13-37
+107    </application>
+108
+109</manifest>

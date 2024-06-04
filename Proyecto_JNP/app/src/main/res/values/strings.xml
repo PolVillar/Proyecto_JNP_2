@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name" translatable="false">My Virtual Closet</string>
+    <string name="login">Log In</string>
+    <string name="register">Register</string>
+    <string name="reg_now">Register now as a new user or Log in!</string>
+    <string name="fName">First Name</string>
+    <string name="lName">Last Name</string>
+    <string name="email">Email Address</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="cPassword">Confirm Password</string>
+    <string name="phone">Phone Number</string>
+    <string name="address">Address</string>
+    <string name="edit_text_empty">This field cannot be blank</string>
+    <string name="password_match">The passwords do not match</string>
+    <string name="invalid_mail">The email is not valid</string>
+    <string name="forgot_password">Did you forget your password?</string>
+    <string name="or">or</string>
+    <string name="sign_google">Sign in with Google</string>
+    <string name="sign_facebook">Sign in with Facebook</string>
+    <string name="cancel">Cancel and Exit</string>
+    <string name="create_account">Create account and Log In</string>
+    <string name="winter_button">WINTER</string>
+    <string name="summer_button">SUMMER</string>
+    <string name="autum_button">AUTUM</string>
+    <string name="spring_button">SPRING</string>
+    <string name="suitcase_button">SUITCASE</string>
+    <string name="title_your_closet">YOUR CLOSET</string>
+    <string name="jacket_button">JACKETS</string>
+    <string name="sweaters_button">SWEATERS/T-SHIRTS</string>
+    <string name="skirt_pants_button">SKIRTS/PANTS</string>
+    <string name="shoes_button">SHOES</string>
+    <string name="underwear_button">UNDERWEAR</string>
+    <string name="complements_button">COMPLEMENTS</string>
+    <string name="title_closet_winter">WINTER\'S CLOSET</string>
+    <string name="title_jackets">JACKETS</string>
+    <string name="title_closet_summer">SUMMER\'S CLOSET</string>
+    <string name="title_autum_closet">AUTUM\'S CLOSET</string>
+    <string name="title_closet_spring">SPRING\'S CLOSET</string>
+    <string name="title_add_clothes">ADD NEW CLOTHES</string>
+    <string name="title_all_closets">CLOSETS</string>
+    <string name="create_closet">CREATE</string>
+    <string name="delete_closet">DELETE</string>
+    <string name="update_closet">UPDATE</string>
+    <string name="all_closets">ALL CLOSETS</string>
+    <string name="all_suitcases">ALL SUITCASES</string>
+    <string name="all_list">ALL</string>
+    <string name="last_use">Last use: %1$s</string>
+    <string name="last_use_null">Not used yet</string>
+    <string name="collection_winter" translatable="false">Winter</string>
+    <string name="collection_spring" translatable="false">Spring</string>
+    <string name="collection_summer" translatable="false">Summer</string>
+    <string name="collection_autumn" translatable="false">Autumn</string>
+    <string name="category_jacket" translatable="false">Jacket</string>
+    <string name="category_shirt" translatable="false">Sweater-Shirt</string>
+    <string name="category_pants" translatable="false">Pants-Skirt</string>
+    <string name="category_shoes" translatable="false">Shoes</string>
+    <string name="category_underwear" translatable="false">Underwear</string>
+    <string name="category_complement">Complement</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="server_ip_title">Server IP</string>
+    <string name="server_ip_summary">Insert the ip of the app server</string>
+    <string name="create">CREATE</string>
+    <string name="clothe_name">Name</string>
+    <string name="color">Color</string>
+    <string name="size">Size</string>
+    <string name="category">Category:</string>
+    <string name="collection">Collection:</string>
+    <string name="select_image_title">Select where you want to get the image from</string>
+    <string name="created_date">Created: %1$s</string>
+    <string name="modified_date">Modified: %1$s</string>
+
+
+</resources>

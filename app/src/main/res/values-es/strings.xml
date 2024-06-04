@@ -44,7 +44,7 @@
     <string name="all_suitcases">TODAS LAS MALETAS</string>
     <string name="all_list">TODO</string>
     <string name="last_use_null">No usado aún</string>
-    
+
     <string name="title_activity_settings">Configuración</string>
     <string name="server_ip_title">IP del servidor</string>
     <string name="server_ip_summary">Introduce la IP del servidor de la app</string>
@@ -60,4 +60,10 @@
     <string name="snetwork">Red social</string>
     <string name="logout">Cerrar Sesión</string>
     <string name="ecloset">Editar armario</string>
+    <string name="password_match">Las contraseñas no coinciden</string>
+    <string name="invalid_mail">El correo electrónico no es válido</string>
+    <string name="last_use">Último uso: %1$s</string>
+    <string name="select_image_title">Selecciona de dónde quieres sacar la imagen</string>
+    <string name="created_date">Creado: %1$s</string>
+    <string name="modified_date">Modificado: %1$s</string>
 </resources>

@@ -69,4 +69,10 @@
     <string name="snetwork">Xarxa Social</string>
     <string name="logout">Tancar Sessió</string>
     <string name="ecloset">Editar armari</string>
+    <string name="password_match">Les contrasenyes con coincideixen</string>
+    <string name="invalid_mail">El correu electrònic no és vàlid</string>
+    <string name="last_use">Últim ús: %1$s</string>
+    <string name="select_image_title">Selecciona d\'on vols treure la imatge</string>
+    <string name="created_date">Creat: %1$s</string>
+    <string name="modified_date">Modificat: %1$s</string>
 </resources>
